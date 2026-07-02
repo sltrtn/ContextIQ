@@ -78,3 +78,15 @@ gradle-app.setting
 
 # Jetpack Compose build intermediates
 compose_compiler/
+
+# ===== Backend / Python =====
+backend/.env
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/**/*.pyc
+
+# ===== Data / Papers (downloaded PDFs) =====
+data/papers/*.pdf
+!data/papers/.gitkeep
