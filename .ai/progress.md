@@ -20,7 +20,7 @@ Created the `.ai/` project memory system and `AGENTS.md` with permanent project 
 
 ---
 
-## 2026-07-02 — Scholium → ContextIQ Migration (Previous Work)
+## 2026-07-02 — Scholium → ContextIQ Migration
 
 Migrated the entire Scholium Android app to ContextIQ with new design language and Retrofit networking.
 
@@ -48,6 +48,8 @@ Migrated the entire Scholium Android app to ContextIQ with new design language a
 - Removed hardcoded Sarvam API key `sk_59k2cw5q_rSbUWFbJ4OeexGxuE4g4IX4Z`
 - All AI calls now go through backend — no keys on device
 
+---
+
 ## 2026-07-02 — Day 0 Backend Scaffold
 
 Set up the backend project structure and Python environment.
@@ -57,7 +59,7 @@ Set up the backend project structure and Python environment.
 - `backend/app/core/config.py` — Pydantic settings via .env
 - `backend/app/main.py` — FastAPI app with health endpoint
 - `backend/test_connections.py` — OpenAI + Qdrant + Cohere verification
-- `backend/.env` (template and empty file)
+- `backend/.env` (template and file)
 - `backend/requirements.txt` — all dependencies frozen
 - `data/papers/` directory for test PDFs
 
@@ -66,47 +68,54 @@ Set up the backend project structure and Python environment.
 
 ---
 
-## 2026-07-04 — Day 0 Completed + Day 1–3 Pipeline Verified ✅
+## 2026-07-04 — Day 0 Complete + Days 1–3 Pipeline Built
 
-**Verified:**
-- OpenAI API: ✅ Connected (text-embedding-ada-002 listed)
-- Qdrant (in-memory): ✅ Connected (0 collections, freshly created)
-- Cohere API: ✅ Connected (chat response OK)
-- FastAPI health: ✅ `GET /api/v1/health` → 200 OK `{"status":"ok","version":"0.1.0","model":"gpt-4o-mini"}`
-- `data/papers/` — all 5 arxiv PDFs present:
-  - `2302.00093_Weak-to-Strong_Generalization.pdf`
-  - `2305.18290_QLoRA.pdf`
-  - `2310.06825_Mixtral_of_Experts.pdf`
-  - `2401.14295_TransNAR.pdf`
-  - `2402.00161_RAG_for_LLMs.pdf`
+**Day 0 verified:**
+- OpenAI API ✅ — key working (no billing, but connection OK)
+- Qdrant in-memory ✅
+- Cohere API ✅
+- `GET /api/v1/health` → 200 OK ✅
+- All 5 arxiv PDFs confirmed in `data/papers/`
 
-**First end-to-end test:**
-- Uploaded `2402.00161_RAG_for_LLMs.pdf` via `POST /api/v1/documents/upload`
-- Parser: pypdf extracted text ✅
-- Chunker: 76 sentence-window chunks ✅
-- Embedder: OpenAI text-embedding-3-small → Qdrant in-memory ✅
-- Query: `/api/v1/query` (Dense + BM25 + RRF + Cohere Rerank) ✅ (tested)
-- SSE stream: `/api/v1/query/stream` ✅ (tested)
-
-**Found and working:**
-- `backend/app/ingestion/parser.py` — PDF/DOCX/TXT parser (pypdf)
+**Full RAG pipeline built and wired:**
+- `backend/app/ingestion/parser.py` — PDF/DOCX/TXT via pypdf
 - `backend/app/ingestion/chunker.py` — sentence_window + semantic
-- `backend/app/retrieval/dense.py` — Qdrant retriever
-- `backend/app/retrieval/sparse.py` — BM25Retriever
-- `backend/app/retrieval/fusion.py` — RRF fusion
-- `backend/app/retrieval/reranker.py` — Cohere Rerank
-- `backend/app/api/routes/documents.py` — upload + status
-- `backend/app/api/routes/query.py` — query + stream
-- `backend/app/models/` — Pydantic schemas
+- `backend/app/retrieval/dense.py` — Qdrant client + dynamic-dim collection setup
+- `backend/app/retrieval/sparse.py` — BM25Retriever (rank_bm25)
+- `backend/app/retrieval/fusion.py` — Reciprocal Rank Fusion
+- `backend/app/retrieval/reranker.py` — Cohere cross-encoder rerank
+- `backend/app/api/routes/documents.py` — upload + status endpoints
+- `backend/app/api/routes/query.py` — hybrid query + SSE stream (3 internal configs)
+- `backend/app/models/document.py` + `query.py` — Pydantic schemas
 
-**Known Issues:**
-- `PaperAnalyzerScreen.kt` uses fully qualified `com.contextiq.app.network.ContextIQClient` references (not idiomatic imports)
-- Room DB uses `fallbackToDestructiveMigration()` — needs proper migration
-- Sarvam key still needs rotation at Sarvam dashboard
-- BM25 index is rebuilt per-query (not persistent) — acceptable for now
-- `evaluation/` module is empty — RAGAs pipeline not yet built
-- Qdrant in-memory: data lost on server restart — need Cloud/persistent Qdrant for production
+**Provider factories added (no hardcoded API dependency):**
+- `backend/app/core/embeddings.py` — `get_embed_model()`: fastembed (384d local) or openai
+- `backend/app/core/llm.py` — `get_llm()`: groq (Llama 3.3 70B free) or openai
+- `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY` added to config + .env.template
+
+**First upload test:**
+- `2402.00161_RAG_for_LLMs.pdf` → 76 sentence-window chunks → fastembed → Qdrant ✅
+
+**Bugs fixed:**
+- BM25 `ZeroDivisionError` on empty corpus — guard added in `sparse.py`
+
+**Committed:** `b686bae` — pushed to `origin/main`
 
 ---
 
-**Next milestone:** RAGAs evaluation pipeline (Days 8–9 in roadmap)
+## 2026-07-06 — .ai docs updated + commit pushed
+
+All changes from the 2026-07-04 session committed and pushed.
+
+**Commit:** `b686bae` — 15 files, 341 insertions
+**Repo URL:** https://github.com/sltrtn/ContextIQ
+
+**Current blocker:** `GROQ_API_KEY` is empty — LLM generation not yet tested.
+
+**Known issues at this point:**
+- `PaperAnalyzerScreen.kt` fully-qualified package references (not idiomatic)
+- Room DB `fallbackToDestructiveMigration()` — needs proper migration
+- Sarvam key still needs rotation at Sarvam dashboard
+- BM25 is per-query (not persistent global index) — acceptable for now
+- Qdrant in-memory loses data on server restart — re-upload required each session
+- `backend/app/evaluation/` is empty stub — RAGAs not yet implemented

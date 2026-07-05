@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-07-02 — Repository Created
+
+Forked from Scholium (`arnavt1605/Scholium`). Initial commit with ContextIQ branding and all migrated Android code.
+
+---
+
 ## 2026-07-02 — Project Memory System
 
 **Created:** `.ai/` directory with full project memory: project.md, roadmap.md, current_task.md, progress.md, decisions.md, handoff.md, changelog.md.
@@ -27,39 +33,28 @@
 
 **Created:** `backend/` directory with FastAPI app skeleton, Pydantic config, connection test script, .env template, requirements.txt.
 **Updated:** `.gitignore` for backend artifacts.
-**Blocked:** Waiting for API keys to verify connections.
 
 ---
 
-## 2026-07-02 — Repository Created
+## 2026-07-04–06 — Full RAG Pipeline (commit b686bae)
 
-Forked from Scholium (`arnavt1605/Scholium`). Initial commit with ContextIQ branding and all migrated Android code.
+**Day 0 verified:** OpenAI ✅, Qdrant ✅, Cohere ✅, FastAPI health ✅, all 5 PDFs present.
 
----
+**Pipeline built:**
+- `ingestion/`: parser (pypdf), chunker (sentence_window + semantic)
+- `retrieval/`: dense (Qdrant), sparse (BM25), fusion (RRF), reranker (Cohere)
+- `api/routes/`: documents (upload/status), query (hybrid + SSE stream)
+- `models/`: document + query Pydantic schemas
 
-## 2026-07-04 — Day 0 Complete + Full Pipeline Live
+**Provider factories** (switch between free-tier and paid without code changes):
+- `core/embeddings.py` — `get_embed_model()`: fastembed (local ONNX, 384d, free) or openai (1536d)
+- `core/llm.py` — `get_llm()`: groq (Llama 3.3 70B, free) or openai (GPT-4o-mini)
+- Config: `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY`
 
-**Day 0 Verified:**
-- OpenAI API ✅, Qdrant in-memory ✅, Cohere API ✅, FastAPI health ✅
-- All 5 arxiv PDFs present in `data/papers/`
+**First upload tested:** 76 chunks embedded via fastembed ✅
 
-**Pipeline Working (end-to-end):**
-- `POST /api/v1/documents/upload` → parse → chunk → embed → Qdrant ✅
-- `POST /api/v1/query` → dense + BM25 + RRF + Cohere rerank → LLM answer ✅
-- `POST /api/v1/query/stream` → SSE streaming pipeline ✅
+**Bug fixed:** BM25 `ZeroDivisionError` on empty corpus.
 
-**New Embedding Strategy:**
-- Added `EMBEDDING_PROVIDER` config (fastembed vs openai)
-- FastEmbed (BAAI/bge-small-en-v1.5, 384 dims, local ONNX) installed — zero cost
-- `app/core/embeddings.py` factory module
+**Committed + pushed:** `b686bae` to `origin/main`.
 
-**New LLM Strategy:**
-- Added `LLM_PROVIDER` config (groq vs openai)
-- Groq (Llama 3.3 70B, free API) installed — zero cost
-- `app/core/llm.py` factory module
-
-**Bug Fixed:**
-- BM25 `ZeroDivisionError` on empty corpus — added guard in `sparse.py`
-
-**Status:** Waiting for Groq API key to complete query pipeline test.
-
+**Status:** Embedding + retrieval fully working. LLM blocked on `GROQ_API_KEY` being empty.
