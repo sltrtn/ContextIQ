@@ -1,32 +1,39 @@
 # Handoff — Session End
 
-> **Last updated:** 2026-07-02
-> **Last action:** Day 0 backend scaffold created, waiting for API keys
+> **Last updated:** 2026-07-04
+> **Last action:** Full pipeline working with fastembed + Groq; waiting for Groq key
 
 ---
 
 ## Current Goal
 
-**Day 0 — Setup accounts, environment, project scaffold, and verify all connections.**
+**Day 1–3 complete. Pipeline is live. One step remaining: verify query end-to-end with Groq LLM.**
 
-Blocked on user providing API keys for OpenAI, Qdrant Cloud, and Cohere.
+---
+
+## Current Status
+
+✅ Embedding working (fastembed local ONNX)
+⏳ LLM blocked — need Groq API key in `.env`
 
 ---
 
 ## Completed Work
 
-### This session:
-- Created `.ai/` project memory system (7 files) + `AGENTS.md`
-- Created `backend/` directory structure with all subpackages
-- Set up Python 3.14 virtual environment with all dependencies
-- Installed: fastapi, uvicorn, llama-index, qdrant-client, openai, cohere, rank-bm25, ragas, celery, redis, unstructured, sse-starlette, python-dotenv
-- Created `backend/app/core/config.py` — Pydantic BaseSettings loading from .env
-- Created `backend/app/main.py` — FastAPI app with `/api/v1/health` endpoint
-- Created `backend/test_connections.py` — verifies all three external services
-- Created `backend/.env` (empty, waiting for keys) and `.env.template`
-- Generated `backend/requirements.txt` from pip freeze
-- Updated `.gitignore` (added backend/Python entries, env, __pycache__)
-- Created `data/papers/` directory for test PDFs
+### Session 2026-07-04:
+- Verified all API connections: OpenAI ✅, Qdrant ✅, Cohere ✅
+- FastAPI server running: `GET /api/v1/health` → 200 OK
+- All 5 arxiv PDFs in `data/papers/`
+- `POST /api/v1/documents/upload` works — 76 chunks embedded successfully
+- Installed `fastembed` + `llama-index-embeddings-fastembed` — zero-cost local embeddings
+- Installed `groq` + `llama-index-llms-groq` — free Llama 3.3 70B LLM
+- Created `backend/app/core/embeddings.py` — embedding factory (fastembed / openai)
+- Created `backend/app/core/llm.py` — LLM factory (groq / openai)
+- Updated `config.py` with `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY`, `GROQ_MODEL`
+- Updated `dense.py` to use `settings.embedding_dim` (384 for fastembed, 1536 for OpenAI)
+- Updated `documents.py`, `query.py` to use factories
+- Fixed BM25 `ZeroDivisionError` on empty corpus
+- Updated `.env` and `.env.template` with all new variables
 
 ---
 
@@ -34,41 +41,37 @@ Blocked on user providing API keys for OpenAI, Qdrant Cloud, and Cohere.
 
 | File | Action |
 |---|---|
-| `AGENTS.md` | Created |
-| `.ai/project.md` | Created |
-| `.ai/roadmap.md` | Created |
-| `.ai/current_task.md` | Created → Updated |
-| `.ai/progress.md` | Created |
-| `.ai/decisions.md` | Created |
-| `.ai/changelog.md` | Created |
-| `.ai/handoff.md` | Created → Updated |
-| `backend/` (entire directory tree) | Created |
-| `backend/app/core/config.py` | Created |
-| `backend/app/main.py` | Created |
-| `backend/test_connections.py` | Created |
-| `backend/.env` | Created |
-| `backend/.env.template` | Created |
-| `backend/requirements.txt` | Created |
-| `.gitignore` | Updated (added backend/Python entries) |
-| `data/papers/` | Created |
+| `backend/app/core/config.py` | Added `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY`, `GROQ_MODEL`, `embedding_dim` property |
+| `backend/app/core/embeddings.py` | **Created** — embedding factory |
+| `backend/app/core/llm.py` | **Created** — LLM factory |
+| `backend/app/retrieval/dense.py` | Dynamic `embedding_dim` for Qdrant collection |
+| `backend/app/retrieval/sparse.py` | Fixed BM25 empty corpus guard |
+| `backend/app/api/routes/documents.py` | Use `get_embed_model()` factory |
+| `backend/app/api/routes/query.py` | Use `get_embed_model()` + `get_llm()` factories |
+| `backend/.env` | Added `EMBEDDING_PROVIDER=fastembed`, `LLM_PROVIDER=groq`, `GROQ_API_KEY=` (needs value) |
+| `backend/.env.template` | Updated with all new variables |
+| `.ai/decisions.md` | Added fastembed + Groq decisions |
+| `.ai/changelog.md` | Added 2026-07-04 entry |
+| `.ai/progress.md` | Updated |
+| `.ai/current_task.md` | Updated |
 
 ---
 
 ## Remaining Work
 
-### Day 0 (blocked):
-- [ ] User fills in API keys in `backend/.env`
-- [ ] Run `python test_connections.py` — verify all three connections
-- [ ] Download 5 arxiv PDFs into `data/papers/` (arxiv IDs: 2302.00093, 2305.18290, 2310.06825, 2401.14295, 2402.00161)
-- [ ] Start FastAPI dev server: `uvicorn app.main:app --reload` — verify `/api/v1/health` returns 200
+### Immediate (unblocked by Groq key):
+- [ ] User pastes Groq key into `backend/.env` at `GROQ_API_KEY=`
+- [ ] Run: `curl -s -X POST http://localhost:8000/api/v1/query -H "Content-Type: application/json" -d '{"question": "What is RAG?", "top_k": 3}'`
+- [ ] Verify full query response with sources and metadata
 
-### Day 1–3 (next milestone):
-- [ ] Implement `backend/app/ingestion/parser.py` — unstructured wrapper
-- [ ] Implement `backend/app/ingestion/chunker.py` — semantic + sentence-window
-- [ ] Implement `backend/app/retrieval/dense.py` — Qdrant retriever + OpenAI embeddings
-- [ ] Create Qdrant collection, ingest first document
-- [ ] Add POST /api/v1/documents/upload endpoint
-- [ ] Manual test: upload PDF → ask question → get answer
+### After query verified:
+- [ ] Ingest all 5 arxiv PDFs
+- [ ] Build `backend/app/evaluation/ragas_runner.py`
+- [ ] Create 30-question test set
+- [ ] Run RAGAs on all 3 configs (Naive, Dense, Hybrid+Rerank)
+- [ ] Add evaluation route `POST /api/v1/evaluation/run`
+- [ ] React frontend (Days 12–13)
+- [ ] Deploy to Railway (Day 14)
 
 ---
 
@@ -77,18 +80,18 @@ Blocked on user providing API keys for OpenAI, Qdrant Cloud, and Cohere.
 - **Repo URL:** `https://github.com/sltrtn/ContextIQ`
 - **Local path:** `/home/mad/StudioProjects/ContextIQ`
 - **Start backend:** `cd backend && source venv/bin/activate && uvicorn app.main:app --reload`
-- **Test connections:** `cd backend && source venv/bin/activate && python test_connections.py`
-- **Python version:** 3.14.6
-- **Docker not available** on this machine — deploy and compose testing will need a system with Docker
+- **Python version:** 3.12 (venv is 3.12 despite system 3.14)
+- **Embedding:** `fastembed` — BAAI/bge-small-en-v1.5, 384 dims, local ONNX, zero cost
+- **LLM:** `groq` — Llama 3.3 70B Versatile, free API (key needed)
+- **Qdrant:** `:memory:` — data lost on server restart, re-upload needed each time
+- **Docker not available** on this machine
 
 ---
 
 ## Suggested Next Step
 
-1. Get API keys from:
-   - OpenAI: https://platform.openai.com/api-keys
-   - Qdrant Cloud: https://cloud.qdrant.io (free tier cluster)
-   - Cohere: https://dashboard.cohere.com/api-keys (free trial)
-2. Paste into `backend/.env`
-3. Run `python test_connections.py`
-4. If all green, start with Days 1–3: ingestion pipeline
+1. User adds Groq key to `backend/.env` (`GROQ_API_KEY=gsk_...`)
+2. Server hot-reloads (or restart: `cd backend && source venv/bin/activate && uvicorn app.main:app --reload`)
+3. Re-upload the RAG paper: `curl -s -X POST http://localhost:8000/api/v1/documents/upload -F "file=@data/papers/2402.00161_RAG_for_LLMs.pdf"`
+4. Test query: `curl -s -X POST http://localhost:8000/api/v1/query -H "Content-Type: application/json" -d '{"question": "What is RAG?", "top_k": 3}' | python3 -m json.tool`
+5. If answer comes back with sources → **Day 1–3 fully done**, move to RAGAs evaluation

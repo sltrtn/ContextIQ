@@ -19,6 +19,11 @@ class BM25Retriever:
         self._bm25: BM25Okapi | None = None
 
     def index(self, chunks: list[dict]):
+        if not chunks:
+            self._chunks = []
+            self._tokenized = []
+            self._bm25 = None
+            return
         self._chunks = chunks
         self._tokenized = [word_tokenize(c["text"].lower()) for c in chunks]
         self._bm25 = BM25Okapi(self._tokenized)

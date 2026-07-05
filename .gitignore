@@ -90,3 +90,6 @@ backend/**/*.pyc
 # ===== Data / Papers (downloaded PDFs) =====
 data/papers/*.pdf
 !data/papers/.gitkeep
+
+# ===== Backend / Uploads (user-uploaded files, transient) =====
+backend/data/uploads/

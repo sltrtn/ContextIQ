@@ -26,7 +26,7 @@ def ensure_collection(client: QdrantClient | None = None) -> QdrantClient:
         client.create_collection(
             collection_name=settings.qdrant_collection,
             vectors_config=VectorParams(
-                size=1536,  # text-embedding-3-small
+                size=settings.embedding_dim,  # 384 for fastembed, 1536 for OpenAI
                 distance=Distance.COSINE,
             ),
         )

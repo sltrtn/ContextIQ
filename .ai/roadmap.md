@@ -23,26 +23,30 @@
 - ✅ Room DB schema updated (database name, package)
 - ✅ Fonts added (Clash Display 6 weights)
 
+### Day 0 — Backend Scaffold & API Keys ✅ COMPLETE
+- ✅ Python venv with all dependencies
+- ✅ `.env` with working API keys (OpenAI, Cohere, Qdrant in-memory)
+- ✅ `test_connections.py` — all 3 services verified
+- ✅ FastAPI health endpoint 200 OK
+- ✅ 5 arxiv PDFs in `data/papers/`
+
+### Days 1–3 — Base RAG Pipeline ✅ COMPLETE (pending Groq key)
+- ✅ `ingestion/parser.py` — PDF/DOCX/TXT parsing
+- ✅ `ingestion/chunker.py` — sentence_window + semantic
+- ✅ `retrieval/dense.py` — Qdrant + embedding model factory
+- ✅ `retrieval/sparse.py` — BM25Retriever (rank_bm25, bug fixed)
+- ✅ `retrieval/fusion.py` — Reciprocal Rank Fusion
+- ✅ `retrieval/reranker.py` — Cohere Rerank
+- ✅ `api/routes/documents.py` — upload + status endpoints
+- ✅ `api/routes/query.py` — hybrid query + SSE stream
+- ✅ `core/embeddings.py` — embedding factory (fastembed / openai)
+- ✅ `core/llm.py` — LLM factory (groq / openai)
+- ✅ First document upload: 76 chunks embedded ✅
+- ⏳ Full query test: waiting for Groq API key
+
 ---
 
 ## Current Milestone
-
-### 🔄 Day 0 — Backend Scaffold & API Keys
-- Set up Python environment (venv, requirements.txt)
-- Create `.env` with API keys
-- `test_connections.py` verifying OpenAI, Qdrant Cloud, Cohere
-- Docker Compose scaffold (FastAPI + Redis + Celery)
-- Register accounts: OpenAI, Cohere, Qdrant Cloud, Railway
-
----
-
-## Future Milestones
-
-### ⏳ Days 1–3: Base RAG Pipeline
-- LlamaIndex + Qdrant + OpenAI integration
-- Single document ingestion flow
-- Basic query end-to-end (upload → ask → answer)
-- FastAPI app with `/api/v1/health` endpoint
 
 ### ⏳ Days 3–5: Hybrid Search
 - BM25 sparse retriever

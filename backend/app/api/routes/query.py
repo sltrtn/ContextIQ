@@ -6,12 +6,12 @@ from fastapi.responses import StreamingResponse
 from llama_index.core import VectorStoreIndex, Document as LlamaDocument
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.retrievers import VectorIndexRetriever
-from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.llms.openai import OpenAI
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
 from app.core.config import get_settings
+from app.core.embeddings import get_embed_model
+from app.core.llm import get_llm
 from app.models.query import QueryRequest, QueryResponse, Source
 from app.retrieval.dense import get_qdrant_client, ensure_collection
 from app.retrieval.sparse import BM25Retriever
@@ -31,8 +31,8 @@ def _naive_rag(query: str, top_k: int = 5) -> tuple[str, list[Source]]:
         client=qdrant,
         collection_name=settings.qdrant_collection,
     )
-    embed_model = OpenAIEmbedding(model=settings.embedding_model)
-    llm = OpenAI(model=settings.openai_model)
+    embed_model = get_embed_model()
+    llm = get_llm()
 
     index = VectorStoreIndex.from_vector_store(
         vector_store=vector_store,
@@ -65,8 +65,8 @@ def _dense_only(query: str, top_k: int = 5) -> tuple[str, list[Source]]:
         client=qdrant,
         collection_name=settings.qdrant_collection,
     )
-    embed_model = OpenAIEmbedding(model=settings.embedding_model)
-    llm = OpenAI(model=settings.openai_model)
+    embed_model = get_embed_model()
+    llm = get_llm()
 
     index = VectorStoreIndex.from_vector_store(
         vector_store=vector_store,
@@ -114,7 +114,7 @@ async def query(req: QueryRequest):
         client=qdrant,
         collection_name=settings.qdrant_collection,
     )
-    embed_model = OpenAIEmbedding(model=settings.embedding_model)
+    embed_model = get_embed_model()
     llm = OpenAI(model=settings.openai_model)
 
     index = VectorStoreIndex.from_vector_store(
@@ -186,7 +186,7 @@ async def query_stream(req: QueryRequest):
             client=qdrant,
             collection_name=settings.qdrant_collection,
         )
-        embed_model = OpenAIEmbedding(model=settings.embedding_model)
+        embed_model = get_embed_model()
         llm = OpenAI(model=settings.openai_model)
 
         index = VectorStoreIndex.from_vector_store(

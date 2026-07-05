@@ -104,3 +104,38 @@
 - Buttons are 56dp tall with 20dp rounding.
 - `pressScale()` modifier adds spring animation to all interactive elements.
 - Bottom sheets have `dragHandle = null`.
+
+---
+
+## 2026-07-04 — FastEmbed as Local Embedding Fallback
+
+**Decision:** Add `EMBEDDING_PROVIDER` env var supporting `fastembed` (local ONNX, 384 dims) and `openai` (1536 dims). Default to `fastembed` during development.
+
+**Reason:** OpenAI key has no billing credits. fastembed uses BAAI/bge-small-en-v1.5 via ONNX runtime — fast, zero API cost, works fully offline. No quality loss for development testing.
+
+**Alternatives Considered:**
+- sentence-transformers — heavier, requires PyTorch
+- Wait for OpenAI billing — blocks all development
+
+**Consequences:**
+- Qdrant collection size is 384 when fastembed, 1536 when OpenAI
+- `ensure_collection()` now reads `settings.embedding_dim` — cannot mix providers in same collection
+- Switch back to OpenAI by setting `EMBEDDING_PROVIDER=openai` in `.env`
+
+---
+
+## 2026-07-04 — Groq as Free LLM Fallback
+
+**Decision:** Add `LLM_PROVIDER` env var supporting `groq` (free Llama 3.3 70B) and `openai` (GPT-4o-mini). Default to `groq` during development.
+
+**Reason:** OpenAI key has no billing credits. Groq provides free access to Llama 3.3 70B Versatile with very generous rate limits — suitable for development and RAGAs evaluation.
+
+**Alternatives Considered:**
+- Ollama local — not available on this machine
+- OpenAI billing — blocks development
+- Anthropic Claude — separate key needed
+
+**Consequences:**
+- LLM factory `app/core/llm.py` wraps both providers
+- Switch back to OpenAI by setting `LLM_PROVIDER=openai` in `.env`
+- RAGAs evaluation will use Groq as judge LLM until OpenAI billing added

@@ -17,10 +17,10 @@ def _ingest_sync(file_path: str, doc_id: str) -> dict:
     from app.ingestion.parser import parse_document
     from app.ingestion.chunker import chunk_document
     from llama_index.core import Document as LlamaDocument, VectorStoreIndex, StorageContext
-    from llama_index.embeddings.openai import OpenAIEmbedding
     from llama_index.vector_stores.qdrant import QdrantVectorStore
     from app.retrieval.dense import get_qdrant_client, ensure_collection
     from app.core.config import get_settings
+    from app.core.embeddings import get_embed_model
 
     settings = get_settings()
 
@@ -42,7 +42,7 @@ def _ingest_sync(file_path: str, doc_id: str) -> dict:
         client=qdrant_client,
         collection_name=settings.qdrant_collection,
     )
-    embed_model = OpenAIEmbedding(model=settings.embedding_model)
+    embed_model = get_embed_model()
 
     documents = [
         LlamaDocument(

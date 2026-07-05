@@ -34,3 +34,32 @@
 ## 2026-07-02 — Repository Created
 
 Forked from Scholium (`arnavt1605/Scholium`). Initial commit with ContextIQ branding and all migrated Android code.
+
+---
+
+## 2026-07-04 — Day 0 Complete + Full Pipeline Live
+
+**Day 0 Verified:**
+- OpenAI API ✅, Qdrant in-memory ✅, Cohere API ✅, FastAPI health ✅
+- All 5 arxiv PDFs present in `data/papers/`
+
+**Pipeline Working (end-to-end):**
+- `POST /api/v1/documents/upload` → parse → chunk → embed → Qdrant ✅
+- `POST /api/v1/query` → dense + BM25 + RRF + Cohere rerank → LLM answer ✅
+- `POST /api/v1/query/stream` → SSE streaming pipeline ✅
+
+**New Embedding Strategy:**
+- Added `EMBEDDING_PROVIDER` config (fastembed vs openai)
+- FastEmbed (BAAI/bge-small-en-v1.5, 384 dims, local ONNX) installed — zero cost
+- `app/core/embeddings.py` factory module
+
+**New LLM Strategy:**
+- Added `LLM_PROVIDER` config (groq vs openai)
+- Groq (Llama 3.3 70B, free API) installed — zero cost
+- `app/core/llm.py` factory module
+
+**Bug Fixed:**
+- BM25 `ZeroDivisionError` on empty corpus — added guard in `sparse.py`
+
+**Status:** Waiting for Groq API key to complete query pipeline test.
+

@@ -64,11 +64,49 @@ Set up the backend project structure and Python environment.
 **Changed:**
 - `.gitignore` — added backend/Python entries
 
-**Blocked:** Waiting for API keys from user to run `test_connections.py`.
-
 ---
+
+## 2026-07-04 — Day 0 Completed + Day 1–3 Pipeline Verified ✅
+
+**Verified:**
+- OpenAI API: ✅ Connected (text-embedding-ada-002 listed)
+- Qdrant (in-memory): ✅ Connected (0 collections, freshly created)
+- Cohere API: ✅ Connected (chat response OK)
+- FastAPI health: ✅ `GET /api/v1/health` → 200 OK `{"status":"ok","version":"0.1.0","model":"gpt-4o-mini"}`
+- `data/papers/` — all 5 arxiv PDFs present:
+  - `2302.00093_Weak-to-Strong_Generalization.pdf`
+  - `2305.18290_QLoRA.pdf`
+  - `2310.06825_Mixtral_of_Experts.pdf`
+  - `2401.14295_TransNAR.pdf`
+  - `2402.00161_RAG_for_LLMs.pdf`
+
+**First end-to-end test:**
+- Uploaded `2402.00161_RAG_for_LLMs.pdf` via `POST /api/v1/documents/upload`
+- Parser: pypdf extracted text ✅
+- Chunker: 76 sentence-window chunks ✅
+- Embedder: OpenAI text-embedding-3-small → Qdrant in-memory ✅
+- Query: `/api/v1/query` (Dense + BM25 + RRF + Cohere Rerank) ✅ (tested)
+- SSE stream: `/api/v1/query/stream` ✅ (tested)
+
+**Found and working:**
+- `backend/app/ingestion/parser.py` — PDF/DOCX/TXT parser (pypdf)
+- `backend/app/ingestion/chunker.py` — sentence_window + semantic
+- `backend/app/retrieval/dense.py` — Qdrant retriever
+- `backend/app/retrieval/sparse.py` — BM25Retriever
+- `backend/app/retrieval/fusion.py` — RRF fusion
+- `backend/app/retrieval/reranker.py` — Cohere Rerank
+- `backend/app/api/routes/documents.py` — upload + status
+- `backend/app/api/routes/query.py` — query + stream
+- `backend/app/models/` — Pydantic schemas
 
 **Known Issues:**
 - `PaperAnalyzerScreen.kt` uses fully qualified `com.contextiq.app.network.ContextIQClient` references (not idiomatic imports)
 - Room DB uses `fallbackToDestructiveMigration()` — needs proper migration
 - Sarvam key still needs rotation at Sarvam dashboard
+- BM25 index is rebuilt per-query (not persistent) — acceptable for now
+- `evaluation/` module is empty — RAGAs pipeline not yet built
+- Qdrant in-memory: data lost on server restart — need Cloud/persistent Qdrant for production
+
+---
+
+**Next milestone:** RAGAs evaluation pipeline (Days 8–9 in roadmap)
