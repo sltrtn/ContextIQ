@@ -139,3 +139,94 @@
 - LLM factory `app/core/llm.py` wraps both providers
 - Switch back to OpenAI by setting `LLM_PROVIDER=openai` in `.env`
 - RAGAs evaluation will use Groq as judge LLM until OpenAI billing added
+
+---
+
+## 2026-07-06 — Contextual Chunking with Section Summaries
+
+**Decision:** Prepend LLM-generated section summaries to each chunk during ingestion.
+
+**Reason:** Chunks lose document context when isolated. Adding `[Section: Method — This section describes the QLoRA technique using 4-bit quantization.]` gives the LLM retriever and generator signal about where each chunk fits in the document.
+
+**Alternatives Considered:**
+- Metadata-only approach (section name without summary) — rejected, less informative
+- Parent-child chunk hierarchy — more complex, deferred to future work
+- HyDE (hypothetical document embedding) — retrieval-time, not ingestion-time
+
+**Consequences:**
+- Each chunk is ~50 tokens longer (section label overhead)
+- One extra LLM call per document at ingestion time
+- Section detection relies on regex — works well for standard academic paper formatting, may miss non-standard sections
+
+---
+
+## 2026-07-06 — Global BM25 Singleton at Ingestion
+
+**Decision:** Build the BM25 index once at ingestion time and expose it as a module-level singleton, rather than rebuilding per query.
+
+**Reason:** Per-query BM25 rebuild from dense results was wasteful and semantically wrong — BM25 should search the full corpus, not just the dense results. Building once at ingestion gives better recall for sparse queries.
+
+**Alternatives Considered:**
+- Per-query rebuild from dense results (previous approach) — wasteful, misses sparse-only matches
+- Persistent BM25 index on disk — overkill for in-memory Qdrant
+- LlamaIndex built-in BM25 — less control over the pipeline
+
+**Consequences:**
+- BM25 index lives in memory alongside Qdrant
+- Server restart requires re-upload to rebuild BM25
+- `build_global_bm25()` must be called after every ingestion
+
+---
+
+## 2026-07-06 — Custom LLM-as-Judge Instead of RAGAs Library
+
+**Decision:** Build a custom evaluation runner using LLM-as-judge instead of using the RAGAs library.
+
+**Reason:** RAGAs has a dependency on `langchain_community.chat_models.vertexai` which fails to import. Rather than fighting dependency issues, building a custom judge gives full control over evaluation methodology and zero external dependencies.
+
+**Alternatives Considered:**
+- Fix RAGAs import — requires installing langchain vertexai, adds complexity
+- Use a different evaluation framework — none as established as RAGAs
+- Manual evaluation — not scalable
+
+**Consequences:**
+- 4 metrics: faithfulness, answer_relevancy, context_precision, context_recall
+- Each metric is a single LLM call with a structured prompt
+- Scores are on 0-1 scale, directly comparable across configs
+- Can be extended with custom metrics without library changes
+
+---
+
+## 2026-07-06 — Config Parameter for Ablation Isolation
+
+**Decision:** Expose a `config` parameter on the query endpoint instead of separate endpoints per pipeline.
+
+**Reason:** A single endpoint with a config parameter makes ablation studies trivial — same API, same request format, just different retrieval/generation strategies. Cleaner than 5 separate endpoints.
+
+**Alternatives Considered:**
+- Separate endpoints (`/query/vector_only`, `/query/hybrid`, etc.) — verbose, hard to maintain
+- Query parameter on existing endpoint — less discoverable
+- Internal-only config (no API exposure) — limits frontend flexibility
+
+**Consequences:**
+- Frontend can switch pipeline configs by changing one field
+- Evaluation runner can hit the same endpoint with different configs
+- Adding new configs requires updating one function in `query.py`
+
+---
+
+## 2026-07-06 — Lost-in-the-Middle Ordering
+
+**Decision:** Order retrieved chunks so the most relevant appears last (closest to the question), using "reversed" ordering in context assembly.
+
+**Reason:** Research shows LLMs attend better to text near the end of the context window. Placing the most relevant chunk last (just before the question) improves answer quality.
+
+**Alternatives Considered:**
+- Forward ordering (most relevant first) — worse for LLM attention
+- Random ordering — no benefit
+- No ordering (original retrieval order) — loses reranker signal
+
+**Consequences:**
+- Context string has most relevant chunk at the end
+- Source labels still use original rank numbering
+- Configurable via `order` parameter in `assemble_context()`

@@ -119,3 +119,56 @@ All changes from the 2026-07-04 session committed and pushed.
 - BM25 is per-query (not persistent global index) — acceptable for now
 - Qdrant in-memory loses data on server restart — re-upload required each session
 - `backend/app/evaluation/` is empty stub — RAGAs not yet implemented
+
+---
+
+## 2026-07-06 — Phase 0: Bug Fixes + Groq Key
+
+**Fixed critical bugs:**
+- `query.py:118,190` — replaced hardcoded `OpenAI(model=...)` with `get_llm()`
+- `dense.py` — singleton pattern for in-memory Qdrant client
+- `documents.py` — wrapped vector store in `StorageContext.from_defaults()` (data was never reaching Qdrant)
+- `reranker.py` — fallback now uses input order instead of raw score sort
+
+**Added Groq API key:** Set in `backend/.env` (see credentials manager)
+
+**Phase 0A — Global BM25:** `sparse.py` has `build_global_bm25()` + `get_global_bm25()` singleton
+**Phase 0B — Reranker fallback fixed**
+**Phase 0C — Metadata enrichment:** `parse_document_pages()`, page numbers in chunks, `filename`/`page` on Source model
+
+---
+
+## 2026-07-06 — Phase 1: Evaluation Pipeline
+
+**Test set:** `data/eval/test_set.json` — 30 Q&A pairs (6 per paper, mix of types/difficulty)
+
+**Evaluation runner:** `evaluation/ragas_runner.py` — custom LLM-as-judge (no RAGAs dependency needed)
+- Metrics: faithfulness, answer_relevancy, context_precision, context_recall
+
+**Evaluation API:** `api/routes/evaluation.py` — `POST /api/v1/evaluation/run`, `GET /api/v1/evaluation/configs`
+
+**5 pipeline configs:** `evaluation/configs.py` — vector_only, vector_rerank, hybrid, hybrid_rerank, long_context
+
+**Smoke test passed:** Ingested 69 chunks, queried "What is QLoRA?", got answer + 5 contexts
+
+---
+
+## 2026-07-06 — Phase 2: Query Intelligence + Context Assembly
+
+**Contextual chunking (Phase 2A):** `chunker.py` — `contextual_chunker()` detects sections via regex, summarizes via LLM, prepends `[Section: name — summary]` to each chunk. Tested: 3 sections detected in QLoRA paper, 70 chunks produced.
+
+**Query rewriting (Phase 2B):** `query_transform.py` — `expand_query()` generates 2-3 query variants via LLM, retrieves for all, re-fuses with RRF.
+
+**Context assembly (Phase 2C):** `context_assembly.py` — dedup (SequenceMatcher, threshold 0.85), lost-in-the-middle ordering, source labeling (`[1] filename.pdf (p.5): ...`).
+
+**Ablation isolation (Phase 4):** `QueryRequest` now has `config` and `expand` parameters. 5 configs work independently. Evaluation runner passes config to query function.
+
+---
+
+## 2026-07-06 — Phase 5: Faithfulness Post-Check
+
+**Faithfulness checker:** `evaluation/faithfulness.py` — post-generation LLM-as-judge that extracts claims, verifies each against contexts, returns score + unsupported claims list.
+
+**Wired into `/query`:** Response now includes `faithfulness` field with score, supported/total claims, and unsupported claim details.
+
+**Tested:** Correctly caught hallucination (Google/8-bit claim → 0.0 score), rewarded grounded answers.

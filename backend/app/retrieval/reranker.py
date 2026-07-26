@@ -47,6 +47,5 @@ def rerank(
         return reranked
 
     except Exception as e:
-        print(f"Cohere Rerank failed ({e}), falling back to top-{top_k} by score")
-        sorted_docs = sorted(documents, key=lambda x: x["score"], reverse=True)
-        return sorted_docs[:top_k]
+        print(f"Cohere Rerank failed ({e}), falling back to top-{top_k} by input order")
+        return documents[:top_k]

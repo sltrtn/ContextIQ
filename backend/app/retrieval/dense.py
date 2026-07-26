@@ -4,14 +4,21 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
+_client: QdrantClient | None = None
+
 
 def get_qdrant_client() -> QdrantClient:
+    global _client
+    if _client is not None:
+        return _client
     if settings.qdrant_url == ":memory:":
-        return QdrantClient(location=":memory:")
-    kwargs = {"url": settings.qdrant_url}
-    if settings.qdrant_api_key:
-        kwargs["api_key"] = settings.qdrant_api_key
-    return QdrantClient(**kwargs)
+        _client = QdrantClient(location=":memory:")
+    else:
+        kwargs = {"url": settings.qdrant_url}
+        if settings.qdrant_api_key:
+            kwargs["api_key"] = settings.qdrant_api_key
+        _client = QdrantClient(**kwargs)
+    return _client
 
 
 def ensure_collection(client: QdrantClient | None = None) -> QdrantClient:
@@ -26,7 +33,7 @@ def ensure_collection(client: QdrantClient | None = None) -> QdrantClient:
         client.create_collection(
             collection_name=settings.qdrant_collection,
             vectors_config=VectorParams(
-                size=settings.embedding_dim,  # 384 for fastembed, 1536 for OpenAI
+                size=settings.embedding_dim,
                 distance=Distance.COSINE,
             ),
         )

@@ -58,3 +58,46 @@ Forked from Scholium (`arnavt1605/Scholium`). Initial commit with ContextIQ bran
 **Committed + pushed:** `b686bae` to `origin/main`.
 
 **Status:** Embedding + retrieval fully working. LLM blocked on `GROQ_API_KEY` being empty.
+
+---
+
+## 2026-07-06 — Bug Fixes + Groq Key + Full Pipeline
+
+**Bug fixes (Phase 0):**
+- `query.py` — replaced hardcoded `OpenAI(model=...)` with `get_llm()`
+- `dense.py` — singleton pattern for in-memory Qdrant client
+- `documents.py` — wrapped vector store in `StorageContext.from_defaults()` (critical: data was never reaching Qdrant)
+- `reranker.py` — fallback uses input order instead of raw score sort
+
+**Groq API key added:** LLM generation now works.
+
+**Phase 0A — Global BM25:** Built once at ingestion, reused across queries.
+**Phase 0C — Metadata enrichment:** Page numbers, filenames on chunks and Source objects.
+
+---
+
+## 2026-07-06 — Evaluation Pipeline (Phase 1)
+
+**Test set:** `data/eval/test_set.json` — 30 Q&A pairs across 5 papers.
+
+**Evaluation runner:** `evaluation/ragas_runner.py` — custom LLM-as-judge (no RAGAs dependency).
+- Metrics: faithfulness, answer_relevancy, context_precision, context_recall
+
+**5 pipeline configs:** vector_only, vector_rerank, hybrid, hybrid_rerank, long_context.
+
+**Evaluation API:** `POST /api/v1/evaluation/run`, `GET /api/v1/evaluation/configs`.
+
+---
+
+## 2026-07-06 — Query Intelligence + Context Assembly (Phase 2)
+
+**Contextual chunking:** Section detection → LLM summarization → prepended labels.
+**Query rewriting:** LLM generates 2-3 query variants, retrieves for all, re-fuses.
+**Context assembly:** Dedup (0.85 threshold), lost-in-the-middle ordering, source labels `[1] filename.pdf (p.5): ...`.
+
+---
+
+## 2026-07-06 — Ablation Isolation + Faithfulness (Phase 4-5)
+
+**Config parameter:** `QueryRequest` has `config` (5 pipeline configs) and `expand` (query rewriting toggle).
+**Faithfulness post-check:** Claim extraction, context verification, score + unsupported claims in response.

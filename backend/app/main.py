@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.core.config import get_settings
-from app.api.routes import documents, query
+from app.api.routes import documents, query, evaluation
 
 settings = get_settings()
 
@@ -22,6 +22,7 @@ app = FastAPI(
 
 app.include_router(documents.router)
 app.include_router(query.router)
+app.include_router(evaluation.router)
 
 
 @app.get("/api/v1/health")

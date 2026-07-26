@@ -34,17 +34,17 @@ ContextIQ/                    ← git repo root
 | Layer | Technology |
 |---|---|
 | Android | Kotlin, Jetpack Compose, Retrofit, Room DB |
-| Backend | FastAPI (async), Celery + Redis, LlamaIndex |
-| Vector DB | Qdrant Cloud |
-| Embeddings | OpenAI text-embedding-3-small |
-| Sparse Retrieval | BM25 (rank-bm25) |
-| Fusion | RRF |
-| Reranking | Cohere Rerank |
-| LLM | OpenAI GPT-4o-mini |
-| Document Parsing | unstructured |
-| Evaluation | RAGAs |
-| Web Frontend | React + Recharts |
-| Deployment | Railway (Docker Compose) |
+| Backend | FastAPI (async), LlamaIndex, Pydantic |
+| Vector DB | Qdrant (in-memory, `:memory:`) |
+| Embeddings | fastembed (BAAI/bge-small-en-v1.5, 384d, local) |
+| Sparse Retrieval | BM25 (rank-bm25), global singleton |
+| Fusion | RRF (K=60) |
+| Reranking | Cohere Rerank (rerank-english-v3.0) |
+| LLM | Groq (Llama 3.3 70B Versatile, free) |
+| Document Parsing | pypdf (PDF), python-docx (DOCX) |
+| Evaluation | Custom LLM-as-judge (faithfulness, relevancy, precision, recall) |
+| Web Frontend | React + Recharts (planned) |
+| Deployment | Railway (Docker Compose, planned) |
 
 ---
 
@@ -56,7 +56,7 @@ ContextIQ/                    ← git repo root
 - **Build:** Gradle with Kotlin DSL (`app/build.gradle.kts`)
 - **Network:** Retrofit 2.9.0, singleton via `ContextIQClient.api`
 - **Local DB:** Room DB (chat history cache)
-- **Theme:** `Theme.ContextIQ` — Scholarly Navy (#002855), Clash Display fonts
+- **Theme:** `Theme.ContextIQ` — Scholarly Navy (#002855), Outfit fonts (see `.ai/design-system.md`)
 - **UI:** Jetpack Compose with `pressScale()` spring animations
 
 ---
@@ -66,7 +66,7 @@ ContextIQ/                    ← git repo root
 1. **NO AI API KEYS in Android code** — all AI calls go through ContextIQ backend.
 2. **NO hardcoded secrets** — keys in `.env` only (backend), never committed.
 3. **All 14 Android screens use `ContextIQClient.api`** Retrofit singleton, never direct HTTP.
-4. **Design language must match Scholarly Navy (#002855) + Clash Display + Meluko patterns** (0dp elevation, 20-24dp card rounding, 56dp button height with 20dp rounding, uppercase section headers with letter spacing, no drag handle on bottom sheets).
+4. **Design language must follow `.ai/design-system.md`** — Outfit font, Scholarly Navy (#002855) accent, shared neutral tokens, 0dp elevation, 12-16dp card rounding, 48px button height with 20dp rounding, uppercase section headers with letter spacing, no drag handle on bottom sheets.
 5. **Sarvam API key `sk_59k2cw5q_rSbUWFbJ4OeexGxuE4g4IX4Z` is compromised** — never use, never commit.
 
 ---
@@ -83,8 +83,30 @@ ContextIQ/                    ← git repo root
 # Run tests
 ./gradlew test
 
-# Backend (once created)
-cd backend && uvicorn app.main:app --reload
+# Run backend server
+cd backend && source venv/bin/activate && uvicorn app.main:app --reload --port 8000
+
+# Test health
+curl http://localhost:8000/api/v1/health
+
+# Upload document
+curl -s -X POST http://localhost:8000/api/v1/documents/upload \
+  -F "file=@data/papers/2305.18290_QLoRA.pdf"
+
+# Query (full pipeline)
+curl -s -X POST http://localhost:8000/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is QLoRA?", "top_k": 5, "config": "hybrid_rerank"}'
+
+# Query with expansion
+curl -s -X POST http://localhost:8000/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is QLoRA?", "expand": true}'
+
+# Run evaluation
+curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
+  -H "Content-Type: application/json" \
+  -d '{"config": "vector_only", "max_questions": 5}'
 
 # Docker (once created)
 docker-compose up --build

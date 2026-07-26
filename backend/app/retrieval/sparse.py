@@ -10,8 +10,11 @@ except LookupError:
     nltk.download("punkt_tab", quiet=True)
 
 
+_global_bm25 = None
+
+
 class BM25Retriever:
-    """Simple BM25 retriever that indexes chunks for a single document."""
+    """BM25 retriever that indexes chunks for retrieval."""
 
     def __init__(self):
         self._chunks: list[dict] = []
@@ -45,3 +48,15 @@ class BM25Retriever:
             }
             for idx, score in top
         ]
+
+
+def build_global_bm25(chunks: list[dict]):
+    """Build the global BM25 index from all ingested chunks."""
+    global _global_bm25
+    _global_bm25 = BM25Retriever()
+    _global_bm25.index(chunks)
+
+
+def get_global_bm25() -> BM25Retriever | None:
+    """Return the global BM25 index, or None if not built yet."""
+    return _global_bm25

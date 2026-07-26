@@ -6,71 +6,77 @@
 
 ## Objective
 
-**Unblock the LLM — add Groq API key, then move to RAGAs evaluation pipeline.**
+**Phase 6 — README overhaul + final polish. All core features are implemented and tested.**
 
 ---
 
 ## Status
 
-❌ Blocked — `GROQ_API_KEY` is empty in `backend/.env`. LLM calls fail; embedding + retrieval fully work.
+✅ All core features working. Backend runs, queries return answers with faithfulness scores.
 
 ---
 
 ## What Works Right Now
 
-- [x] `POST /api/v1/documents/upload` → parse → 76 chunks → fastembed → Qdrant ✅
+- [x] `POST /api/v1/documents/upload` → contextual chunking → fastembed → Qdrant ✅
 - [x] Dense retrieval (Qdrant + fastembed query) ✅
-- [x] BM25 sparse retrieval ✅
+- [x] Global BM25 sparse retrieval (built at ingestion) ✅
 - [x] RRF fusion ✅
-- [x] Cohere Rerank ✅
-- [ ] LLM answer generation — **blocked on Groq key**
-- [ ] Full `/api/v1/query` response with answer + sources
-- [ ] `/api/v1/query/stream` SSE streaming (also blocked on LLM)
-
----
-
-## Blocker
-
-```
-GROQ_API_KEY=        ← needs a value
-```
-
-File: `backend/.env`  
-Get free key: https://console.groq.com/keys (30 sec, no card)
+- [x] Cohere Rerank with fallback ✅
+- [x] LLM answer generation (Groq Llama 3.3 70B) ✅
+- [x] Query expansion (LLM generates 2-3 variants) ✅
+- [x] Context assembly (dedup, ordering, source labels) ✅
+- [x] Faithfulness post-check (claim extraction + verification) ✅
+- [x] 5 pipeline configs (vector_only, vector_rerank, hybrid, hybrid_rerank, long_context) ✅
+- [x] LLM-as-judge evaluation runner ✅
+- [x] 30-question test set ✅
+- [ ] README overhaul — **next**
+- [ ] Full evaluation run (30 questions × 5 configs)
+- [ ] Persistent Qdrant (Docker Compose)
+- [ ] React frontend
+- [ ] Deploy to Railway
 
 ---
 
 ## Next Steps (in order)
 
-1. **[ ] Paste Groq key** into `backend/.env` at `GROQ_API_KEY=gsk_...`
-2. **[ ] Restart server** and re-upload a PDF (in-memory Qdrant resets on restart)
-3. **[ ] Verify query returns answer + sources** — marks Days 1–3 fully done
-4. **[ ] Ingest all 5 arxiv PDFs** into Qdrant
-5. **[ ] Build `backend/app/evaluation/ragas_runner.py`** — RAGAs pipeline
-6. **[ ] Create 30-question test set** (`data/eval/test_set.json`)
-7. **[ ] Run RAGAs across 3 configs** — Naive, Dense-only, Hybrid+Rerank
-8. **[ ] Add `POST /api/v1/evaluation/run`** endpoint
-9. **[ ] React frontend** (Days 12–13)
-10. **[ ] Deploy to Railway** (Day 14)
+1. **[ ] Write README** — architecture diagram, results table, getting started
+2. **[ ] Run full evaluation** — 30 questions × 5 configs → comparison table
+3. **[ ] Persistent Qdrant** — Docker Compose with volume mount
+4. **[ ] React frontend** — chat UI + upload + observability dashboard
+5. **[ ] Deploy to Railway** — Docker Compose + public URL
+6. **[ ] Android rewire** — point Retrofit to deployed backend
 
 ---
 
-## Immediate Commands (once Groq key is set)
+## Start Commands
 
 ```bash
 cd /home/mad/StudioProjects/ContextIQ/backend
 source venv/bin/activate
 
 # Start server
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8000
 
 # Upload test paper
 curl -s -X POST http://localhost:8000/api/v1/documents/upload \
-  -F "file=@../data/papers/2402.00161_RAG_for_LLMs.pdf"
+  -F "file=@../data/papers/2305.18290_QLoRA.pdf"
 
-# Query
+# Query (full pipeline)
 curl -s -X POST http://localhost:8000/api/v1/query \
   -H "Content-Type: application/json" \
-  -d '{"question": "What is Retrieval Augmented Generation?", "top_k": 3}' \
+  -d '{"question": "What is QLoRA?", "top_k": 5, "config": "hybrid_rerank"}' \
+  | python3 -m json.tool
+
+# Query with expansion
+curl -s -X POST http://localhost:8000/api/v1/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is QLoRA?", "expand": true}' \
+  | python3 -m json.tool
+
+# Run evaluation (5 questions)
+curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
+  -H "Content-Type: application/json" \
+  -d '{"config": "vector_only", "max_questions": 5}' \
   | python3 -m json.tool
 ```
