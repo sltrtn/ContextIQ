@@ -6,23 +6,19 @@
 
 ## Objective
 
-**Phase 6 — README overhaul + final polish. All core features are implemented and tested.**
+**Backend build + evaluation complete. README, tests, Docker Compose, and retrieval metrics are done.**
 
----
-
-## Status
-
-✅ All core features working. Backend runs, queries return answers with faithfulness scores.
+Next: React frontend or deploy.
 
 ---
 
 ## What Works Right Now
 
-- [x] `POST /api/v1/documents/upload` → contextual chunking → fastembed → Qdrant ✅
+- [x] `POST /api/v1/documents/upload` → contextual/sentence-window chunking → fastembed → Qdrant ✅
 - [x] Dense retrieval (Qdrant + fastembed query) ✅
 - [x] Global BM25 sparse retrieval (built at ingestion) ✅
 - [x] RRF fusion ✅
-- [x] Cohere Rerank with fallback ✅
+- [x] Cohere Rerank with fallback + rate limiting ✅
 - [x] LLM answer generation (Groq Llama 3.3 70B) ✅
 - [x] Query expansion (LLM generates 2-3 variants) ✅
 - [x] Context assembly (dedup, ordering, source labels) ✅
@@ -30,53 +26,42 @@
 - [x] 5 pipeline configs (vector_only, vector_rerank, hybrid, hybrid_rerank, long_context) ✅
 - [x] LLM-as-judge evaluation runner ✅
 - [x] 30-question test set ✅
-- [ ] README overhaul — **next**
-- [ ] Full evaluation run (30 questions × 5 configs)
-- [ ] Persistent Qdrant (Docker Compose)
+- [x] Retrieval-only metrics (P@5, R@5, MRR) across 30 questions × 5 configs ✅
+- [x] pytest suite (39 tests passing) ✅
+- [x] Docker Compose with persistent Qdrant ✅
+- [x] README with architecture + eval table ✅
 - [ ] React frontend
 - [ ] Deploy to Railway
+- [ ] Full LLM-judge evaluation (needs paid tier)
 
 ---
 
 ## Next Steps (in order)
 
-1. **[ ] Write README** — architecture diagram, results table, getting started
-2. **[ ] Run full evaluation** — 30 questions × 5 configs → comparison table
-3. **[ ] Persistent Qdrant** — Docker Compose with volume mount
-4. **[ ] React frontend** — chat UI + upload + observability dashboard
-5. **[ ] Deploy to Railway** — Docker Compose + public URL
-6. **[ ] Android rewire** — point Retrofit to deployed backend
+1. **[ ] React frontend** — chat UI with SSE streaming, document upload, observability dashboard
+2. **[ ] Deploy to Railway** — Docker Compose + public URL
+3. **[ ] Android rewire** — point Retrofit base URL to deployed backend
+4. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
 
 ---
 
 ## Start Commands
 
 ```bash
+# Local backend
 cd /home/mad/StudioProjects/ContextIQ/backend
 source venv/bin/activate
-
-# Start server
 uvicorn app.main:app --reload --port 8000
 
-# Upload test paper
-curl -s -X POST http://localhost:8000/api/v1/documents/upload \
-  -F "file=@../data/papers/2305.18290_QLoRA.pdf"
+# Docker Compose
+cd /home/mad/StudioProjects/ContextIQ/backend
+docker compose up --build
 
-# Query (full pipeline)
-curl -s -X POST http://localhost:8000/api/v1/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is QLoRA?", "top_k": 5, "config": "hybrid_rerank"}' \
-  | python3 -m json.tool
+# Tests
+cd /home/mad/StudioProjects/ContextIQ/backend
+pytest tests/ -v
 
-# Query with expansion
-curl -s -X POST http://localhost:8000/api/v1/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is QLoRA?", "expand": true}' \
-  | python3 -m json.tool
-
-# Run evaluation (5 questions)
-curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
-  -H "Content-Type: application/json" \
-  -d '{"config": "vector_only", "max_questions": 5}' \
-  | python3 -m json.tool
+# Retrieval metrics
+cd /home/mad/StudioProjects/ContextIQ/backend
+python run_retrieval_metrics.py
 ```

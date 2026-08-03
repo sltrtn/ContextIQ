@@ -1,5 +1,7 @@
 """Cohere Rerank cross-encoder wrapper."""
 
+import time
+
 import cohere
 
 from app.core.config import get_settings
@@ -8,12 +10,24 @@ settings = get_settings()
 
 _cohere_client: cohere.Client | None = None
 
+# Simple rate-limiting guard: keep at least 6.1s between calls to stay under
+# Cohere's trial-tier 10 calls/minute limit.
+_last_rerank_call: float = 0.0
+
 
 def get_cohere_client() -> cohere.Client:
     global _cohere_client
     if _cohere_client is None:
         _cohere_client = cohere.Client(settings.cohere_api_key)
     return _cohere_client
+
+
+def _rate_limit():
+    global _last_rerank_call
+    elapsed = time.time() - _last_rerank_call
+    if elapsed < 6.1:
+        time.sleep(6.1 - elapsed)
+    _last_rerank_call = time.time()
 
 
 def rerank(
@@ -26,10 +40,14 @@ def rerank(
 
     Falls back to returning top_k by original score if rerank fails.
     """
-    client = get_cohere_client()
+    if not documents:
+        return []
+
     texts = [d["text"] for d in documents]
 
     try:
+        _rate_limit()
+        client = get_cohere_client()
         response = client.rerank(
             model=model,
             query=query,
@@ -39,11 +57,9 @@ def rerank(
         reranked = []
         for r in response.results:
             idx = r.index
-            reranked.append({
-                "text": texts[idx],
-                "score": r.relevance_score,
-                "chunk_id": documents[idx].get("chunk_id", ""),
-            })
+            result = dict(documents[idx])
+            result["score"] = r.relevance_score
+            reranked.append(result)
         return reranked
 
     except Exception as e:

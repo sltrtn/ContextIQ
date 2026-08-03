@@ -1,0 +1,1412 @@
+{
+  "note": "Retrieval-only metrics: Precision@5, Recall@5, MRR across 30 questions and 5 configs. No LLM calls.",
+  "summary": [
+    {
+      "config": "vector_only",
+      "precision_at_5": 0.9733,
+      "recall_at_5": 0.0996,
+      "mrr": 0.9778,
+      "avg_relevant_in_top_5": 4.87,
+      "avg_total_relevant": 78.8,
+      "time_ms": 3786.81
+    },
+    {
+      "config": "vector_rerank",
+      "precision_at_5": 0.9933,
+      "recall_at_5": 0.1016,
+      "mrr": 1.0,
+      "avg_relevant_in_top_5": 4.97,
+      "avg_total_relevant": 78.8,
+      "time_ms": 177774.63
+    },
+    {
+      "config": "hybrid",
+      "precision_at_5": 0.9533,
+      "recall_at_5": 0.1,
+      "mrr": 1.0,
+      "avg_relevant_in_top_5": 4.77,
+      "avg_total_relevant": 78.8,
+      "time_ms": 3596.63
+    },
+    {
+      "config": "hybrid_rerank",
+      "precision_at_5": 0.8533,
+      "recall_at_5": 0.0931,
+      "mrr": 0.9167,
+      "avg_relevant_in_top_5": 4.27,
+      "avg_total_relevant": 78.8,
+      "time_ms": 179318.92
+    },
+    {
+      "config": "long_context",
+      "precision_at_5": 0.2,
+      "recall_at_5": 0.0099,
+      "mrr": 0.3987,
+      "avg_relevant_in_top_5": 1.0,
+      "avg_total_relevant": 78.8,
+      "time_ms": 177.24
+    }
+  ],
+  "per_question": {
+    "vector_only": [
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q01",
+        "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.3333333333333333,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q02",
+        "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q03",
+        "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q04",
+        "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q05",
+        "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q06",
+        "question": "Why is the problem of irrelevant context important for real-world LLM applications?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q07",
+        "question": "What does DPO stand for and what problem does it solve?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q08",
+        "question": "How does DPO differ from the standard RLHF approach for aligning language models?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q09",
+        "question": "What are the main advantages of DPO over RLHF according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q10",
+        "question": "What is the relationship between reward models and language model policies that DPO exploits?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q11",
+        "question": "Why does RLHF often have stability issues that DPO addresses?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q12",
+        "question": "What type of loss function does DPO use for training?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q13",
+        "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q14",
+        "question": "What attention mechanisms does Mistral 7B use for efficient inference?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q15",
+        "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q16",
+        "question": "What license are the Mistral 7B models released under?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q17",
+        "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q18",
+        "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q19",
+        "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q20",
+        "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q21",
+        "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q22",
+        "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q23",
+        "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q24",
+        "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q25",
+        "question": "What does DIQKD stand for and what is its goal?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q26",
+        "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q27",
+        "question": "What is the Convex-Combination attack in the context of DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q28",
+        "question": "What noise constraints does DIQKD impose for key generation?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q29",
+        "question": "What methods does the paper use to investigate key rates in DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q30",
+        "question": "What is the main research question about dimensions in DIQKD?"
+      }
+    ],
+    "vector_rerank": [
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q01",
+        "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q02",
+        "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q03",
+        "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q04",
+        "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.0784313725490196,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 51,
+        "question_id": "q05",
+        "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q06",
+        "question": "Why is the problem of irrelevant context important for real-world LLM applications?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q07",
+        "question": "What does DPO stand for and what problem does it solve?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q08",
+        "question": "How does DPO differ from the standard RLHF approach for aligning language models?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q09",
+        "question": "What are the main advantages of DPO over RLHF according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q10",
+        "question": "What is the relationship between reward models and language model policies that DPO exploits?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q11",
+        "question": "Why does RLHF often have stability issues that DPO addresses?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q12",
+        "question": "What type of loss function does DPO use for training?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q13",
+        "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q14",
+        "question": "What attention mechanisms does Mistral 7B use for efficient inference?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q15",
+        "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q16",
+        "question": "What license are the Mistral 7B models released under?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q17",
+        "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q18",
+        "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q19",
+        "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q20",
+        "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q21",
+        "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q22",
+        "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q23",
+        "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q24",
+        "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q25",
+        "question": "What does DIQKD stand for and what is its goal?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q26",
+        "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q27",
+        "question": "What is the Convex-Combination attack in the context of DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q28",
+        "question": "What noise constraints does DIQKD impose for key generation?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q29",
+        "question": "What methods does the paper use to investigate key rates in DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q30",
+        "question": "What is the main research question about dimensions in DIQKD?"
+      }
+    ],
+    "hybrid": [
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q01",
+        "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.0784313725490196,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 51,
+        "question_id": "q02",
+        "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q03",
+        "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q04",
+        "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q05",
+        "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q06",
+        "question": "Why is the problem of irrelevant context important for real-world LLM applications?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q07",
+        "question": "What does DPO stand for and what problem does it solve?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q08",
+        "question": "How does DPO differ from the standard RLHF approach for aligning language models?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q09",
+        "question": "What are the main advantages of DPO over RLHF according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q10",
+        "question": "What is the relationship between reward models and language model policies that DPO exploits?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q11",
+        "question": "Why does RLHF often have stability issues that DPO addresses?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q12",
+        "question": "What type of loss function does DPO use for training?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q13",
+        "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q14",
+        "question": "What attention mechanisms does Mistral 7B use for efficient inference?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q15",
+        "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q16",
+        "question": "What license are the Mistral 7B models released under?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q17",
+        "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q18",
+        "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q19",
+        "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q20",
+        "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.023121387283236993,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 173,
+        "question_id": "q21",
+        "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q22",
+        "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q23",
+        "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.023121387283236993,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 173,
+        "question_id": "q24",
+        "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.037037037037037035,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 81,
+        "question_id": "q25",
+        "question": "What does DIQKD stand for and what is its goal?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q26",
+        "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q27",
+        "question": "What is the Convex-Combination attack in the context of DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q28",
+        "question": "What noise constraints does DIQKD impose for key generation?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q29",
+        "question": "What methods does the paper use to investigate key rates in DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q30",
+        "question": "What is the main research question about dimensions in DIQKD?"
+      }
+    ],
+    "hybrid_rerank": [
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.0784313725490196,
+        "mrr": 0.5,
+        "relevant_in_top_k": 4,
+        "total_relevant": 51,
+        "question_id": "q01",
+        "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?"
+      },
+      {
+        "precision_at_k": 0.4,
+        "recall_at_k": 0.0392156862745098,
+        "mrr": 1.0,
+        "relevant_in_top_k": 2,
+        "total_relevant": 51,
+        "question_id": "q02",
+        "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q03",
+        "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.09803921568627451,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 51,
+        "question_id": "q04",
+        "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.058823529411764705,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 51,
+        "question_id": "q05",
+        "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.058823529411764705,
+        "mrr": 0.5,
+        "relevant_in_top_k": 3,
+        "total_relevant": 51,
+        "question_id": "q06",
+        "question": "Why is the problem of irrelevant context important for real-world LLM applications?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.057971014492753624,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 69,
+        "question_id": "q07",
+        "question": "What does DPO stand for and what problem does it solve?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.057971014492753624,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 69,
+        "question_id": "q08",
+        "question": "How does DPO differ from the standard RLHF approach for aligning language models?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.057971014492753624,
+        "mrr": 0.5,
+        "relevant_in_top_k": 4,
+        "total_relevant": 69,
+        "question_id": "q09",
+        "question": "What are the main advantages of DPO over RLHF according to the paper?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q10",
+        "question": "What is the relationship between reward models and language model policies that DPO exploits?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.057971014492753624,
+        "mrr": 0.5,
+        "relevant_in_top_k": 4,
+        "total_relevant": 69,
+        "question_id": "q11",
+        "question": "Why does RLHF often have stability issues that DPO addresses?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.07246376811594203,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 69,
+        "question_id": "q12",
+        "question": "What type of loss function does DPO use for training?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q13",
+        "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q14",
+        "question": "What attention mechanisms does Mistral 7B use for efficient inference?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q15",
+        "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q16",
+        "question": "What license are the Mistral 7B models released under?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q17",
+        "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.25,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 20,
+        "question_id": "q18",
+        "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?"
+      },
+      {
+        "precision_at_k": 0.4,
+        "recall_at_k": 0.011560693641618497,
+        "mrr": 0.5,
+        "relevant_in_top_k": 2,
+        "total_relevant": 173,
+        "question_id": "q19",
+        "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 0.4,
+        "recall_at_k": 0.011560693641618497,
+        "mrr": 1.0,
+        "relevant_in_top_k": 2,
+        "total_relevant": 173,
+        "question_id": "q20",
+        "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.023121387283236993,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 173,
+        "question_id": "q21",
+        "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q22",
+        "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.028901734104046242,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 173,
+        "question_id": "q23",
+        "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?"
+      },
+      {
+        "precision_at_k": 0.8,
+        "recall_at_k": 0.023121387283236993,
+        "mrr": 1.0,
+        "relevant_in_top_k": 4,
+        "total_relevant": 173,
+        "question_id": "q24",
+        "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q25",
+        "question": "What does DIQKD stand for and what is its goal?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q26",
+        "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q27",
+        "question": "What is the Convex-Combination attack in the context of DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q28",
+        "question": "What noise constraints does DIQKD impose for key generation?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q29",
+        "question": "What methods does the paper use to investigate key rates in DIQKD?"
+      },
+      {
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.06172839506172839,
+        "mrr": 1.0,
+        "relevant_in_top_k": 5,
+        "total_relevant": 81,
+        "question_id": "q30",
+        "question": "What is the main research question about dimensions in DIQKD?"
+      }
+    ],
+    "long_context": [
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q01",
+        "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q02",
+        "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q03",
+        "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q04",
+        "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q05",
+        "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.0196078431372549,
+        "mrr": 0.25,
+        "relevant_in_top_k": 1,
+        "total_relevant": 51,
+        "question_id": "q06",
+        "question": "Why is the problem of irrelevant context important for real-world LLM applications?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q07",
+        "question": "What does DPO stand for and what problem does it solve?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q08",
+        "question": "How does DPO differ from the standard RLHF approach for aligning language models?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q09",
+        "question": "What are the main advantages of DPO over RLHF according to the paper?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q10",
+        "question": "What is the relationship between reward models and language model policies that DPO exploits?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q11",
+        "question": "Why does RLHF often have stability issues that DPO addresses?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.16666666666666666,
+        "relevant_in_top_k": 0,
+        "total_relevant": 69,
+        "question_id": "q12",
+        "question": "What type of loss function does DPO use for training?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q13",
+        "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q14",
+        "question": "What attention mechanisms does Mistral 7B use for efficient inference?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q15",
+        "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q16",
+        "question": "What license are the Mistral 7B models released under?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q17",
+        "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?"
+      },
+      {
+        "precision_at_k": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.07692307692307693,
+        "relevant_in_top_k": 0,
+        "total_relevant": 20,
+        "question_id": "q18",
+        "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q19",
+        "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q20",
+        "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q21",
+        "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q22",
+        "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q23",
+        "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?"
+      },
+      {
+        "precision_at_k": 0.6,
+        "recall_at_k": 0.017341040462427744,
+        "mrr": 1.0,
+        "relevant_in_top_k": 3,
+        "total_relevant": 173,
+        "question_id": "q24",
+        "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q25",
+        "question": "What does DIQKD stand for and what is its goal?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q26",
+        "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q27",
+        "question": "What is the Convex-Combination attack in the context of DIQKD?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q28",
+        "question": "What noise constraints does DIQKD impose for key generation?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q29",
+        "question": "What methods does the paper use to investigate key rates in DIQKD?"
+      },
+      {
+        "precision_at_k": 0.2,
+        "recall_at_k": 0.012345679012345678,
+        "mrr": 0.5,
+        "relevant_in_top_k": 1,
+        "total_relevant": 81,
+        "question_id": "q30",
+        "question": "What is the main research question about dimensions in DIQKD?"
+      }
+    ]
+  }
+}

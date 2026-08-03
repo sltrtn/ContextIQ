@@ -9,9 +9,10 @@ def expand_query(query: str, num_variants: int = 2) -> list[str]:
 
     Returns the original query plus num_variants rephrased versions.
     """
-    llm = get_llm()
+    try:
+        llm = get_llm()
 
-    prompt = f"""Rewrite the following question in {num_variants} different ways to improve search retrieval.
+        prompt = f"""Rewrite the following question in {num_variants} different ways to improve search retrieval.
 Each rephrasing should use different vocabulary and phrasing but preserve the same meaning.
 Focus on: technical synonyms, alternative terminology, and more specific phrasings.
 
@@ -23,7 +24,6 @@ Format your response as:
 
 Do NOT include the original question."""
 
-    try:
         response = str(llm.complete(prompt)).strip()
         variants = []
         for line in response.split('\n'):
@@ -38,3 +38,4 @@ Do NOT include the original question."""
     except Exception as e:
         print(f"Query expansion failed: {e}")
         return [query]
+

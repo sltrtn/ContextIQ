@@ -21,9 +21,12 @@
 | Faithfulness post-check | ✅ LLM-as-judge claim verification |
 | Ablation isolation | ✅ 5 pipeline configs via `config` parameter |
 | RAGAs evaluation | ✅ LLM-as-judge runner + 30-item test set |
+| Retrieval metrics | ✅ P@5, R@5, MRR across 30 questions × 5 configs |
+| pytest test suite | ✅ 39 tests passing |
+| Docker Compose | ✅ persistent Qdrant + backend |
+| README | ✅ architecture, eval table, PDF mapping, getting started |
 | React frontend | ⏳ not started |
 | Railway deploy | ⏳ not started |
-| README overhaul | ⏳ not started |
 
 ---
 
@@ -116,7 +119,7 @@ curl http://localhost:8000/api/v1/health
 
 # Upload + query
 curl -s -X POST http://localhost:8000/api/v1/documents/upload \
-  -F "file=@../data/papers/2305.18290_QLoRA.pdf"
+  -F "file=@../data/papers/2305.18290_DPO.pdf"
 
 curl -s -X POST http://localhost:8000/api/v1/query \
   -H "Content-Type: application/json" \
@@ -132,9 +135,8 @@ curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
 
 ## Next Steps
 
-1. **README overhaul** — write project description, architecture diagram, results table
-2. **Persistent Qdrant** — Docker Compose for Qdrant Cloud or persistent storage
-3. **Run full evaluation** — all 30 questions × 5 configs → comparison table
-4. **Contextual chunking improvement** — section detection is coarse (only 3 sections in DPO paper), may need better regex
-5. **React frontend** — web UI for document upload + query
-6. **Railway deploy** — Docker Compose + deployment
+1. **React frontend** — chat UI + upload + observability dashboard
+2. **Railway deploy** — Docker Compose + public URL
+3. **Full LLM-judge evaluation** — requires paid Groq/OpenAI tier (free tier 100k tokens/day is insufficient for 150 calls)
+4. **Contextual chunking improvement** — section detection is coarse, may need better regex
+5. **Android rewire** — point Retrofit to deployed backend

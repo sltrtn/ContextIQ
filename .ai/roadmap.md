@@ -74,10 +74,12 @@
 
 ## Current Milestone
 
-### 🔄 Phase 6 — README Overwrite + Final Polish
-- ⏳ Write README with architecture diagram, results table, getting started
-- ⏳ Update all `.ai/` docs to reflect final state
-- ⏳ Verify all endpoints work end-to-end
+### ✅ Phase 6 — README, Tests, Retrieval Metrics, Docker
+- ✅ Rename PDFs to match actual content
+- ✅ pytest suite (39 tests)
+- ✅ Retrieval metrics table (P@5, R@5, MRR)
+- ✅ Docker Compose + persistent Qdrant
+- ✅ README with architecture, eval table, PDF mapping
 
 ---
 

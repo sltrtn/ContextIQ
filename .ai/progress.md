@@ -94,7 +94,7 @@ Set up the backend project structure and Python environment.
 - `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY` added to config + .env.template
 
 **First upload test:**
-- `2402.00161_RAG_for_LLMs.pdf` → 76 sentence-window chunks → fastembed → Qdrant ✅
+- `2402.00161_QKD.pdf` → 76 sentence-window chunks → fastembed → Qdrant ✅
 
 **Bugs fixed:**
 - BM25 `ZeroDivisionError` on empty corpus — guard added in `sparse.py`
@@ -119,6 +119,77 @@ All changes from the 2026-07-04 session committed and pushed.
 - BM25 is per-query (not persistent global index) — acceptable for now
 - Qdrant in-memory loses data on server restart — re-upload required each session
 - `backend/app/evaluation/` is empty stub — RAGAs not yet implemented
+
+---
+
+## 2026-07-06 — Phase 0: Bug Fixes + Groq Key
+
+**Bug fixes (Phase 0):**
+- `query.py` — replaced hardcoded `OpenAI(model=...)` with `get_llm()`
+- `dense.py` — singleton pattern for in-memory Qdrant client
+- `documents.py` — wrapped vector store in `StorageContext.from_defaults()` (critical: data was never reaching Qdrant)
+- `reranker.py` — fallback uses input order instead of raw score sort
+- Global BM25 built once at ingestion, reused across queries
+- Metadata enrichment: page numbers, filenames on chunks and Source objects
+
+---
+
+## 2026-07-06 — Phase 1: Evaluation Pipeline
+
+**Test set:** `data/eval/test_set.json` — 30 Q&A pairs across 5 papers
+
+**Evaluation runner:** `evaluation/ragas_runner.py` — custom LLM-as-judge (no RAGAs dependency)
+- Metrics: faithfulness, answer_relevancy, context_precision, context_recall
+
+**5 pipeline configs:** `evaluation/configs.py` — vector_only, vector_rerank, hybrid, hybrid_rerank, long_context
+
+**Evaluation API:** `api/routes/evaluation.py` — `POST /api/v1/evaluation/run`, `GET /api/v1/evaluation/configs`
+
+---
+
+## 2026-07-06 — Phase 2: Query Intelligence + Context Assembly
+
+**Contextual chunking (Phase 2A):** `chunker.py` — `contextual_chunker()` detects sections via regex, summarizes via LLM, prepends `[Section: name — summary]` to each chunk
+
+**Query rewriting (Phase 2B):** `query_transform.py` — `expand_query()` generates 2-3 query variants via LLM, retrieves for all, re-fuses
+
+**Context assembly (Phase 2C):** `context_assembly.py` — dedup, lost-in-the-middle ordering, source labels
+
+---
+
+## 2026-07-06 — Phase 4-5: Ablation Isolation + Faithfulness
+
+**Config parameter:** `QueryRequest` has `config` (5 pipeline configs) and `expand` (query rewriting toggle)
+
+**Faithfulness post-check:** `evaluation/faithfulness.py` — claim extraction, context verification, score + unsupported claims
+
+---
+
+## 2026-08-03 — Phase 6: README, Tests, Retrieval Metrics, Docker
+
+**Data integrity:** Renamed 4 PDFs to match actual content; updated `test_set.json` and docs
+
+**pytest suite:** `backend/tests/` with 39 passing tests
+- parser, chunker with mock LLM, BM25, RRF fusion, reranker fallback, context assembly, query transform fallback, retrieval metrics
+
+**Code fixes from tests:**
+- `query_transform.py`: moved `get_llm()` inside try block for fallback
+- `reranker.py`: wrapped `get_cohere_client()` inside try block, preserve all metadata, added rate-limiting guard for Cohere trial key
+- `fusion.py`: preserve all metadata from input items
+- `sparse.py`: preserve all chunk metadata, prefer `chunk_id` over `node_id`
+
+**Retrieval metrics:** `evaluation/retrieval_metrics.py` + `run_retrieval_metrics.py`
+- P@5, R@5, MRR across 30 questions × 5 configs
+- Real numbers saved to `data/eval/retrieval_metrics.json`
+- Key finding: vector_rerank wins, hybrid is strong, hybrid_rerank underperforms (reranker hurts on top of fusion)
+
+**Docker Compose:** `docker-compose.yml` + `Dockerfile` for Qdrant + backend
+
+**README:** architecture diagram, stack, API examples, eval table, PDF mapping, getting started
+
+**Known blockers:**
+- Full LLM-judge evaluation blocked by Groq free-tier daily token limit (100k/day)
+- Cohere trial key limited to 10 calls/minute (reranker auto-throttles)
 
 ---
 

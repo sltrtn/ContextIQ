@@ -144,14 +144,15 @@ def contextual_chunker(
     pages: list[dict],
     chunk_size: int = 512,
     chunk_overlap: int = 50,
+    llm=None,
 ) -> list[dict]:
     """Contextual chunking: detect sections, summarize each, prepend summary to chunks.
 
     Each chunk becomes: "[Section: section_name — summary] chunk_text"
     """
-    from app.core.llm import get_llm
-
-    llm = get_llm()
+    if llm is None:
+        from app.core.llm import get_llm
+        llm = get_llm()
 
     # Combine all page text to detect sections across the whole document
     full_text = '\n\n'.join(p["text"] for p in pages)
@@ -200,10 +201,11 @@ def chunk_pages(
     strategy: str = "sentence_window",
     chunk_size: int = 512,
     chunk_overlap: int = 50,
+    llm=None,
 ) -> list[dict]:
     """Chunk a list of page dicts ({text, page_number}) into chunks with page metadata."""
     if strategy == "contextual":
-        return contextual_chunker(pages, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        return contextual_chunker(pages, chunk_size=chunk_size, chunk_overlap=chunk_overlap, llm=llm)
 
     all_chunks = []
     for page in pages:

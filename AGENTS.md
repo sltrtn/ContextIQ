@@ -91,7 +91,7 @@ curl http://localhost:8000/api/v1/health
 
 # Upload document
 curl -s -X POST http://localhost:8000/api/v1/documents/upload \
-  -F "file=@data/papers/2305.18290_QLoRA.pdf"
+  -F "file=@data/papers/2305.18290_DPO.pdf"
 
 # Query (full pipeline)
 curl -s -X POST http://localhost:8000/api/v1/query \

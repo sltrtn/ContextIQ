@@ -3,7 +3,7 @@
     "id": "q01",
     "question": "What is the GSM-IC benchmark introduced in the paper about LLM distractibility?",
     "ground_truth": "GSM-IC (Grade-School Math with Irrelevant Context) is an arithmetic reasoning dataset that includes irrelevant information in the problem description to measure how easily LLMs can be distracted.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -11,7 +11,7 @@
     "id": "q02",
     "question": "How does the performance of chain-of-thought prompting change when irrelevant context is added to grade-school math problems?",
     "ground_truth": "Chain-of-thought prompting performance dramatically decreases when irrelevant information is included in the problem description, showing that LLMs are easily distracted by irrelevant context.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "medium",
     "type": "reasoning"
   },
@@ -19,7 +19,7 @@
     "id": "q03",
     "question": "What approach does the paper propose for mitigating LLM distractibility by irrelevant context?",
     "ground_truth": "The paper proposes several mitigation approaches including decoding with self-consistency and adding an instruction to the prompt that tells the language model to ignore the irrelevant information.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -27,7 +27,7 @@
     "id": "q04",
     "question": "What is the key finding about LLMs and irrelevant context according to the distractibility research?",
     "ground_truth": "The key finding is that large language models can be easily distracted by irrelevant context, with model performance dramatically decreasing when irrelevant information is included in problem descriptions, even for state-of-the-art prompting techniques.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -35,7 +35,7 @@
     "id": "q05",
     "question": "How does the paper evaluate the distractibility of cutting-edge prompting techniques for LLMs?",
     "ground_truth": "The paper evaluates distractibility by measuring model performance on the GSM-IC benchmark, comparing accuracy with and without irrelevant context across different prompting techniques.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -43,7 +43,7 @@
     "id": "q06",
     "question": "Why is the problem of irrelevant context important for real-world LLM applications?",
     "ground_truth": "Real-world LLM inputs often contain irrelevant information alongside relevant facts, so understanding distractibility is crucial for reliable deployment where models must filter signal from noise.",
-    "paper": "2302.00093_Weak-to-Strong_Generalization.pdf",
+    "paper": "2302.00093_LLM_Distractibility.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -51,7 +51,7 @@
     "id": "q07",
     "question": "What does DPO stand for and what problem does it solve?",
     "ground_truth": "DPO stands for Direct Preference Optimization. It solves the problem of aligning language models with human preferences without requiring reinforcement learning from human feedback (RLHF), using only a simple classification loss.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -59,7 +59,7 @@
     "id": "q08",
     "question": "How does DPO differ from the standard RLHF approach for aligning language models?",
     "ground_truth": "DPO eliminates the need for training a separate reward model and running reinforcement learning. Instead, it reparameterizes the reward model to extract the optimal policy in closed form, requiring only a simple classification loss on preference data.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "medium",
     "type": "reasoning"
   },
@@ -67,7 +67,7 @@
     "id": "q09",
     "question": "What are the main advantages of DPO over RLHF according to the paper?",
     "ground_truth": "DPO is more stable, performant, and computationally lightweight compared to RLHF. It eliminates the need for sampling from the LM during fine-tuning and avoids the instability of the RL training loop.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -75,7 +75,7 @@
     "id": "q10",
     "question": "What is the relationship between reward models and language model policies that DPO exploits?",
     "ground_truth": "DPO introduces a new parameterization of the reward model in RLHF that enables extraction of the corresponding optimal policy in closed form, allowing the RLHF problem to be solved with a classification loss instead of RL.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -83,7 +83,7 @@
     "id": "q11",
     "question": "Why does RLHF often have stability issues that DPO addresses?",
     "ground_truth": "RLHF is a complex and often unstable procedure that first fits a reward model reflecting human preferences, then fine-tunes the LM using reinforcement learning to maximize this estimated reward without drifting too far from the original model. The RL training loop can be unstable.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -91,7 +91,7 @@
     "id": "q12",
     "question": "What type of loss function does DPO use for training?",
     "ground_truth": "DPO uses a simple classification loss (specifically a binary cross-entropy loss on preference pairs) instead of reinforcement learning, making it computationally lightweight and stable.",
-    "paper": "2305.18290_QLoRA.pdf",
+    "paper": "2305.18290_DPO.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -99,7 +99,7 @@
     "id": "q13",
     "question": "What is the parameter count of Mistral 7B and how does it compare to Llama 2?",
     "ground_truth": "Mistral 7B is a 7-billion-parameter language model that outperforms the best open 13B model (Llama 2) across all evaluated benchmarks.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -107,7 +107,7 @@
     "id": "q14",
     "question": "What attention mechanisms does Mistral 7B use for efficient inference?",
     "ground_truth": "Mistral 7B uses grouped-query attention (GQA) for faster inference, coupled with sliding window attention (SWA) to handle sequences of arbitrary length with reduced inference cost.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -115,7 +115,7 @@
     "id": "q15",
     "question": "How does Mistral 7B-Instruct compare to Llama 2 13B-Chat?",
     "ground_truth": "Mistral 7B-Instruct surpasses Llama 2 13B-Chat model both on human and automated benchmarks despite having fewer parameters.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -123,7 +123,7 @@
     "id": "q16",
     "question": "What license are the Mistral 7B models released under?",
     "ground_truth": "The Mistral 7B models are released under the Apache 2.0 license.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -131,7 +131,7 @@
     "id": "q17",
     "question": "In which specific tasks does Mistral 7B outperform the Llama 1 34B model?",
     "ground_truth": "Mistral 7B outperforms the best released 34B model (Llama 1) specifically in reasoning, mathematics, and code generation tasks.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "hard",
     "type": "factual"
   },
@@ -139,7 +139,7 @@
     "id": "q18",
     "question": "What is the core trade-off that Mistral 7B addresses in the NLP field?",
     "ground_truth": "Mistral 7B addresses the trade-off between model performance and computational cost/inference latency, showing that a smaller well-designed model can outperform larger ones.",
-    "paper": "2310.06825_Mixtral_of_Experts.pdf",
+    "paper": "2310.06825_Mistral_7B.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -147,7 +147,7 @@
     "id": "q19",
     "question": "What are the three main structures discussed in the taxonomy of structure-enhanced LLM reasoning?",
     "ground_truth": "The three main structures are chains (Chain-of-Thought), trees (Tree of Thoughts), and graphs (Graph of Thoughts), which guide LLM reasoning through different topological structures.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -155,7 +155,7 @@
     "id": "q20",
     "question": "How does the paper categorize different structure-enhanced LLM reasoning schemes?",
     "ground_truth": "The paper builds a taxonomy focusing on identifying fundamental classes of harnessed structures, analyzing the prompt execution pipeline and defining different concepts clearly.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -163,7 +163,7 @@
     "id": "q21",
     "question": "What types of tasks benefit from structure-enhanced LLM reasoning according to the paper?",
     "ground_truth": "Structure-enhanced reasoning significantly enhances LLM capability for tasks ranging from logical or mathematical reasoning to planning or creative writing.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -171,7 +171,7 @@
     "id": "q22",
     "question": "What is the general blueprint proposed for effective and efficient LLM reasoning schemes?",
     "ground_truth": "The paper devises a general blueprint that involves conducting an in-depth analysis of the prompt execution pipeline, clarifying and defining different concepts, and building a taxonomy of structure-enhanced LLM reasoning schemes.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -179,7 +179,7 @@
     "id": "q23",
     "question": "How do chains, trees, and graphs differ in terms of reasoning structure for LLMs?",
     "ground_truth": "Chains provide linear sequential reasoning, trees allow branching exploration of multiple reasoning paths, and graphs enable more complex interconnected reasoning with loops and cross-references between different reasoning steps.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -187,7 +187,7 @@
     "id": "q24",
     "question": "What institutions contributed to the research on structure-enhanced LLM reasoning?",
     "ground_truth": "The research was conducted by researchers from ETH Zurich, Dell, Cledar, and BASF SE.",
-    "paper": "2401.14295_TransNAR.pdf",
+    "paper": "2401.14295_Chains_Trees_Graphs_of_Thoughts.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -195,7 +195,7 @@
     "id": "q25",
     "question": "What does DIQKD stand for and what is its goal?",
     "ground_truth": "DIQKD stands for Device-Independent Quantum Key Distribution. Its goal is to generate secret keys between two parties without relying on trust in their employed devices.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "easy",
     "type": "factual"
   },
@@ -203,7 +203,7 @@
     "id": "q26",
     "question": "How do high-dimensional quantum systems compare to qubits in DIQKD scenarios?",
     "ground_truth": "The study explores the resilience of high-dimensional quantum systems in DIQKD, comparing qubits and qutrits, investigating noise thresholds and potential enhancements from increased dimensions.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "medium",
     "type": "reasoning"
   },
@@ -211,7 +211,7 @@
     "id": "q27",
     "question": "What is the Convex-Combination attack in the context of DIQKD?",
     "ground_truth": "The Convex-Combination attack is a method used to evaluate upper bounds on key rates in DIQKD, which has been extended to account for arbitrary dimensions.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "hard",
     "type": "factual"
   },
@@ -219,7 +219,7 @@
     "id": "q28",
     "question": "What noise constraints does DIQKD impose for key generation?",
     "ground_truth": "DIQKD imposes strict noise constraints for key generation, which the study investigates by comparing lower bounds on achievable key rates with upper bounds.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "medium",
     "type": "factual"
   },
@@ -227,7 +227,7 @@
     "id": "q29",
     "question": "What methods does the paper use to investigate key rates in DIQKD?",
     "ground_truth": "The paper uses numerical optimization to investigate lower bounds on achievable key rates, and the Convex-Combination attack to evaluate upper bounds.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   },
@@ -235,7 +235,7 @@
     "id": "q30",
     "question": "What is the main research question about dimensions in DIQKD?",
     "ground_truth": "The main research question is whether increased dimensions (beyond qubits) provide meaningful enhancements in DIQKD scenarios, given the associated experimental efforts required.",
-    "paper": "2402.00161_RAG_for_LLMs.pdf",
+    "paper": "2402.00161_QKD.pdf",
     "difficulty": "hard",
     "type": "reasoning"
   }

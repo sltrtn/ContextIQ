@@ -33,7 +33,7 @@ def _ingest_sync(file_path: str, doc_id: str, filename: str = "") -> dict:
         raise ValueError("Document contains no extractable text")
 
     # Chunk with page metadata
-    chunks = chunk_pages(pages, strategy="sentence_window")
+    chunks = chunk_pages(pages, strategy="contextual")
     if not chunks:
         raise ValueError("No chunks generated")
 

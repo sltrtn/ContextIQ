@@ -20,11 +20,10 @@ def reciprocal_rank_fusion(
             key = item["text"][:200]  # use text prefix as dedup key
             scores[key] = scores.get(key, 0.0) + 1.0 / (rank + RRF_K)
             if key not in items:
-                items[key] = {
-                    "text": item["text"],
-                    "score": 0.0,
-                    "chunk_id": item.get("chunk_id", ""),
-                }
+                # Preserve all metadata from the first occurrence
+                merged = dict(item)
+                merged["score"] = 0.0
+                items[key] = merged
 
     # Apply fused scores
     for key, item in items.items():

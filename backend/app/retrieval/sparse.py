@@ -39,15 +39,14 @@ class BM25Retriever:
         scored = list(enumerate(scores))
         scored.sort(key=lambda x: x[1], reverse=True)
         top = scored[:top_k]
-        return [
-            {
-                "text": self._chunks[idx]["text"],
-                "score": float(score),
-                "chunk_id": self._chunks[idx].get("node_id", ""),
-                "index": idx,
-            }
-            for idx, score in top
-        ]
+        results = []
+        for idx, score in top:
+            result = dict(self._chunks[idx])
+            result["score"] = float(score)
+            result["chunk_id"] = self._chunks[idx].get("chunk_id", self._chunks[idx].get("node_id", ""))
+            result["index"] = idx
+            results.append(result)
+        return results
 
 
 def build_global_bm25(chunks: list[dict]):
