@@ -206,7 +206,7 @@ async def query(req: QueryRequest):
         metadata={
             "config": config,
             "latency_ms": round(latency * 1000, 2),
-            "model": settings.openai_model,
+            "model": settings.active_llm_model,
             "num_queries": len(queries),
             "num_sources": len(sources),
         },

@@ -33,6 +33,20 @@ class Settings(BaseSettings):
             return 384
         return 1536  # OpenAI text-embedding-3-small
 
+    @property
+    def active_llm_model(self) -> str:
+        """The model name actually in use for generation."""
+        if self.llm_provider == "groq":
+            return self.groq_model
+        return self.openai_model
+
+    @property
+    def active_embedding_model(self) -> str:
+        """The embedding model actually in use."""
+        if self.embedding_provider == "fastembed":
+            return self.fastembed_model
+        return self.embedding_model
+
     # Cohere
     cohere_api_key: str
 

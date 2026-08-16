@@ -9,7 +9,7 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print(f"ContextIQ API starting — env: {settings.openai_model}")
+    print(f"ContextIQ API starting — env: {settings.active_llm_model}")
     yield
 
 
@@ -30,5 +30,5 @@ async def health():
     return {
         "status": "ok",
         "version": "0.1.0",
-        "model": settings.openai_model,
+        "model": settings.active_llm_model,
     }
