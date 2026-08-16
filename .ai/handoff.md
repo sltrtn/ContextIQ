@@ -1,7 +1,7 @@
 # Handoff — Session End
 
-> **Last updated:** 2026-07-06
-> **Last action:** Completed Phase 2-5 — contextual chunking, query rewriting, context assembly, ablation isolation, faithfulness post-check
+> **Last updated:** 2026-08-16
+> **Last action:** Created `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` — TCS Prime-style last-minute revision sheet for ContextIQ interviews.
 
 ---
 
@@ -25,6 +25,7 @@
 | pytest test suite | ✅ 39 tests passing |
 | Docker Compose | ✅ persistent Qdrant + backend |
 | README | ✅ architecture, eval table, PDF mapping, getting started |
+| Interview quick sheet | ✅ `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` created |
 | React frontend | ⏳ not started |
 | Railway deploy | ⏳ not started |
 
