@@ -8,7 +8,9 @@
 
 **Backend build + evaluation complete. README, tests, Docker Compose, and retrieval metrics are done.**
 
-Next: React frontend or deploy.
+Recently completed: model-display fix (`active_llm_model` properties), resume updates, and `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` for TCS Prime interview prep.
+
+Next (choose one): React frontend, Railway deploy, or finish interview-portfolio materials (LinkedIn post, eval screenshots, resume polish).
 
 ---
 

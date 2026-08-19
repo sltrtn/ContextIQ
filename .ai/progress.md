@@ -243,3 +243,27 @@ All changes from the 2026-07-04 session committed and pushed.
 **Wired into `/query`:** Response now includes `faithfulness` field with score, supported/total claims, and unsupported claim details.
 
 **Tested:** Correctly caught hallucination (Google/8-bit claim → 0.0 score), rewarded grounded answers.
+
+---
+
+## 2026-08-19 — Interview Prep + Portfolio Sync
+
+**Model display fix:**
+- `config.py` — added `active_llm_model` and `active_embedding_model` properties
+- `query.py` — response metadata now reports the actual model in use
+- `main.py` — startup log and `/health` report the actual model
+- Prevents the bug where Groq Llama-3.3-70B runs but the API claims `gpt-4o-mini`
+
+**Interview quick sheet:**
+- Created `Ref/interview/ContextIQ-Interview-Quick-Sheet.md`
+- TCS Prime-style last-minute revision guide: project pitch, 3 challenge stories, tech table, RAG fundamentals, design decisions, behavioral answers, rapid-fire recall
+- Includes real eval numbers from `data/eval/retrieval_metrics.json`
+
+**Commits pushed:**
+- `8518ebe` fix(backend): report active LLM model instead of hardcoded openai_model
+- `2067458` docs(interview, .ai): add ContextIQ TCS Prime interview quick sheet
+
+**Current focus:**
+- Portfolio storytelling (resume, LinkedIn post, eval screenshots)
+- Mock interview drills using the quick sheet
+- Pending: React frontend / Railway deploy / full LLM-judge eval (needs paid tier)
