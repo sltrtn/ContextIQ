@@ -1,7 +1,7 @@
 # Handoff — Session End
 
-> **Last updated:** 2026-08-19
-> **Last action:** Defined the ContextIQ Android/web design contract and added platform tokens; React API wiring is complete but awaits a reachable backend for live validation.
+> **Last updated:** 2026-08-20
+> **Last action:** Bulk docs/model/port sweep; committed React frontend, Android design tokens, and faithfulness fix.
 
 ---
 

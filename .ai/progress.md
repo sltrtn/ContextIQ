@@ -246,6 +246,47 @@ All changes from the 2026-07-04 session committed and pushed.
 
 ---
 
+## 2026-08-20 — Documentation Sweep + Frontend Commit + Quick Fixes
+
+**Model name bulk update:**
+- Replaced every functional reference to retired `llama-3.3-70b-versatile` with `openai/gpt-oss-120b`
+- Updated: `README.md`, `AGENTS.md`, `.ai/*.md`, `Ref/interview/*`, `Ref/portfolio/ContextIQ-LinkedIn-Post.md`, `backend/.env.template`, `backend/app/core/llm.py`
+- Historical notes kept in `.ai/decisions.md` and `.ai/audit.md` for context
+
+**Port standardization:**
+- Local dev references updated from `8000` to `8001` (README, AGENTS, `.ai/`, Android `build.gradle.kts`)
+- Port 8000 remains blocked by orphaned socket; Docker Compose internal mapping still uses 8000:8000
+
+**Quick fixes:**
+- `backend/app/evaluation/faithfulness.py`: context truncation 500 → 2000 chars
+- `README.md`: test count 33 → 39
+
+**Frontend committed:**
+- Added `frontend/` source files to repo (React + Vite, black-and-white design)
+- `.gitignore` updated to exclude `node_modules/`, `dist/`, and Vite build artifacts
+
+**Android / design system committed:**
+- Added `ContextIQDesign.kt` design tokens
+- Updated `Theme.kt` to disable dynamic color
+- Updated `ExpressiveUtils.kt` to use `ContextIQDesign.Motion.ButtonPressScale`
+- Added cross-platform design contract to `.ai/design-system.md`
+
+**Commits pushed:**
+- `3ef3efb` fix(backend,android): switch Groq model to openai/gpt-oss-120b, widen faithfulness context, update Android base URL
+- `8ccc9b0` docs: bulk-update model name and port across all docs
+- `90b783b` feat(android,design): add ContextIQDesign tokens, cross-platform design contract, deterministic theme
+- `e89e849` feat(frontend): add React/Vite frontend
+- `8d21634` chore(gitignore): ignore frontend build artifacts
+
+**Still open (biggest blockers):**
+- Android endpoints (`/analyze/*`, `/tools/*`, `/chat/stream`) do not match backend endpoints
+- Qdrant `:memory:` loses data on restart
+- Cohere trial rate limit makes evaluation slow
+- No API auth / rate limiting
+- Not deployed to Railway
+
+---
+
 ## 2026-08-19 — Interview Prep + Portfolio Sync
 
 **Model display fix:**
