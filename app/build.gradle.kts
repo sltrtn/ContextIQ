@@ -20,7 +20,7 @@ android {
         versionName = "2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "CONTEXTIQ_BASE_URL", "\"http://10.0.2.2:8000\"")
+        buildConfigField("String", "CONTEXTIQ_BASE_URL", "\"http://10.0.2.2:8001\"")
     }
 
     buildTypes {

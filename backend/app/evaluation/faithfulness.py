@@ -14,7 +14,7 @@ def check_faithfulness(answer: str, contexts: list[str]) -> FaithfulnessCheck:
         return FaithfulnessCheck(score=0.0, supported_claims=0, total_claims=0)
 
     llm = get_llm()
-    context_block = "\n\n---\n\n".join(f"[Context {i+1}]\n{c[:500]}" for i, c in enumerate(contexts[:5]))
+    context_block = "\n\n---\n\n".join(f"[Context {i+1}]\n{c[:2000]}" for i, c in enumerate(contexts[:5]))
 
     prompt = f"""You are evaluating whether an answer is faithful to the provided contexts.
 

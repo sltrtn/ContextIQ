@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     # LLM provider: "openai" or "groq" (free, no billing)
     llm_provider: str = "groq"  # switch to "openai" when billing added
     groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile"  # free fast Llama 3.3 70B
+    groq_model: str = "openai/gpt-oss-120b"  # largest available Groq model (was llama-3.3-70b-versatile, retired)
 
     # Celery / Redis
     celery_broker_url: str = "redis://localhost:6379/0"

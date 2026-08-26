@@ -1,7 +1,7 @@
 """LLM factory — returns the right LLM based on config.
 
 Supports:
-  - "groq":   Groq hosted Llama 3.3 70B (free, fast) — no billing needed
+  - "groq":   Groq hosted openai/gpt-oss-120b (free tier) — no billing needed
   - "openai": OpenAI GPT-4o-mini — requires billing
 """
 
