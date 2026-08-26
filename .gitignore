@@ -93,3 +93,10 @@ data/papers/*.pdf
 
 # ===== Backend / Uploads (user-uploaded files, transient) =====
 backend/data/uploads/
+
+# ===== React / Vite =====
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
