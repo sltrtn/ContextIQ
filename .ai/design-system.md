@@ -5,6 +5,63 @@
 
 ---
 
+## ContextIQ Cross-Platform Contract
+
+This is the binding visual language for the ContextIQ Android and React clients. It makes the product feel like one research instrument rather than two unrelated interfaces.
+
+### One product, two appropriate renderings
+
+| Principle | Android / Compose | React / web |
+|---|---|---|
+| Brand accent | Scholarly Navy `#002855` | None: pure black `#000000` and white `#FFFFFF` only |
+| Theme ownership | `ContextIQTheme` controls the palette; dynamic color is off by default | `frontend/src/styles.css` owns `--ink` / `--paper`; no grays, opacity colors, or accent colors |
+| Typography | Bundled Outfit family in `res/font`; `Typography` is the only type scale | Outfit via CSS; no second display font |
+| Tone | Scholarly, calm, evidence-led | Editorial, high-contrast, kinetic—but still evidence-led |
+| Surface model | Flat surfaces, 0dp elevation, Navy identifies primary action | Flat bordered black/white planes, inversion identifies primary action |
+
+The platform must share hierarchy and interaction rules, not force a phone UI to imitate a desktop canvas. Android retains its Navy accent under the repository constraint; web remains strictly black and white under the frontend brief.
+
+### Shared composition rules
+
+1. **Evidence first.** Every research answer exposes source, page, retrieval/faithfulness state, or an explicit unavailable state.
+2. **Numbered workflow.** Multi-step work is labeled `01 / SOURCE`, `02 / INTERROGATE`, `03 / METHOD`, `04 / RESPONSE` where practical. Android can use the same text in compact section headers.
+3. **Uppercase utility labels.** Outfit Medium, 11–12sp/px, letter spacing around `0.1em`; reserve large type for a single clear task or result.
+4. **One dominant action.** A screen has one filled/inverted primary action. Upload/select actions are secondary until a file is selected; destructive/error states never masquerade as primary actions.
+5. **Flat evidence cards.** No shadows. Cards use a border or an unmistakable surface shift, title, supporting metadata, and a clear press state.
+6. **Answer anatomy.** Answer text → citations/sources → machine metadata (model, latency, faithfulness). Never show fabricated result content as live output.
+
+### Cross-platform tokens
+
+| Token | Value | Android implementation | Web implementation |
+|---|---:|---|---|
+| `space-1` | 4 | `ContextIQDesign.Space.Xs` | `--space-1` |
+| `space-2` | 8 | `Sm` | `--space-2` |
+| `space-3` | 12 | `Md` | `--space-3` |
+| `space-4` | 16 | `Lg` | `--space-4` |
+| `space-5` | 20 | `Xl` / `Screen` | `--space-5` |
+| `space-6` | 24 | `Xxl` | `--space-6` |
+| Field radius | 12 | `ContextIQDesign.Radius.Field` | `--radius-field` |
+| Card radius | 16 | `Radius.Card` | `--radius-card` |
+| Action radius | 20 | `Radius.Action` | `--radius-action` |
+| Standard control | 48 | `Control.StandardHeight` | `--control-height` |
+| Prominent control | 56 | `Control.ProminentHeight` | 56px |
+
+### Interaction contract
+
+- Every tappable Android surface uses `pressScale()` with the shared values in `ContextIQDesign.Motion`; cards target `0.96`, primary buttons `0.94`, chips `0.92`, icon actions `0.90`.
+- Every web control has a visible hover and a visible pressed transform. Web may invert black/white or use clipping/layout motion; it must not introduce gray or colored hover fills.
+- Motion communicates state, never decoration: upload = indexing, query = retrieving, answer = reveal, error = explicit banner/text.
+- Respect reduced motion on web. Android uses the existing spring implementation and must keep press feedback short.
+
+### Implementation guardrails
+
+- Android screens should use `MaterialTheme.typography`, `MaterialTheme.colorScheme`, and `ContextIQDesign` rather than raw colors, ad-hoc radii, or new font families. `LatexGeneratorScreen` needs its white math preview because the renderer is black-on-transparent content; it is an exception, not a general surface color.
+- New Android top bars use Navy `primary`, uppercase utility title, and back navigation. New content screens start with 20dp horizontal padding and an 16–24dp vertical rhythm.
+- New web views use `--ink` and `--paper` rather than new hexadecimal colors. Its API states remain explicit: no document, indexing, retrieving, response, API error.
+- The active frontend is at `frontend/`; its `/api` proxy is development-only and targets port 8001. No client stores API keys.
+
+---
+
 ## Typography
 
 **Font: Outfit** — Clean geometric sans-serif, 9 weights.

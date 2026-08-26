@@ -11,8 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
+import com.contextiq.app.ui.theme.ContextIQDesign
 
-fun Modifier.pressScale(target: Float = 0.94f): Modifier = composed {
+fun Modifier.pressScale(target: Float = ContextIQDesign.Motion.ButtonPressScale): Modifier = composed {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val scale = remember { Animatable(1f) }
