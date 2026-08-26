@@ -6,11 +6,16 @@
 
 ## Objective
 
-**Backend build + evaluation complete. README, tests, Docker Compose, and retrieval metrics are done.**
+**Backend build + evaluation complete. README, tests, Docker Compose, retrieval metrics, React frontend, and interview prep docs are done.**
 
-Recently completed: model-display fix (`active_llm_model` properties), resume updates, and `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` for TCS Prime interview prep.
+Recently completed (this session):
+- Bulk-updated every document to the current Groq model (`openai/gpt-oss-120b`)
+- Standardized local-dev port references to 8001
+- Fixed README test count (33 → 39)
+- Increased faithfulness context window (500 → 2000 chars)
+- Updated Android `build.gradle.kts` base URL to 8001
 
-Next (choose one): React frontend, Railway deploy, or finish interview-portfolio materials (LinkedIn post, eval screenshots, resume polish).
+Next focus: clean working tree + commit, then Android-backend endpoint alignment.
 
 ---
 
@@ -21,7 +26,7 @@ Next (choose one): React frontend, Railway deploy, or finish interview-portfolio
 - [x] Global BM25 sparse retrieval (built at ingestion) ✅
 - [x] RRF fusion ✅
 - [x] Cohere Rerank with fallback + rate limiting ✅
-- [x] LLM answer generation (Groq Llama 3.3 70B) ✅
+- [x] LLM answer generation (Groq openai/gpt-oss-120b) ✅
 - [x] Query expansion (LLM generates 2-3 variants) ✅
 - [x] Context assembly (dedup, ordering, source labels) ✅
 - [x] Faithfulness post-check (claim extraction + verification) ✅
@@ -32,18 +37,43 @@ Next (choose one): React frontend, Railway deploy, or finish interview-portfolio
 - [x] pytest suite (39 tests passing) ✅
 - [x] Docker Compose with persistent Qdrant ✅
 - [x] README with architecture + eval table ✅
-- [ ] React frontend
+- [x] All docs updated to current model (`openai/gpt-oss-120b`) ✅
+- [x] React frontend built ✅
+- [x] Faithfulness context window increased ✅
+- [ ] Commit React frontend and all working-tree changes
 - [ ] Deploy to Railway
 - [ ] Full LLM-judge evaluation (needs paid tier)
+- [ ] Android-backend endpoint alignment
+
+## Portfolio status (2026-08-19)
+
+- [x] LinkedIn draft created at `Ref/portfolio/ContextIQ-LinkedIn-Post.md`; it accurately frames the retrieval-only 30-question × 5-paper evaluation.
+- [ ] Live-query screenshot pending: this environment cannot bind a reachable port 8001 and does not have the fastembed model cached; outbound Hugging Face access is unavailable. The draft includes the safe capture command and crop guidance.
+
+## Frontend status (2026-08-20)
+
+- [x] React/Vite frontend added at `frontend/`: black-and-white Outfit interface with upload, query composer, pipeline selector, response/sources and keyboard/click interactions.
+- [x] Upload and query controls wired to FastAPI (`/documents/upload`, `/query`); Vite proxies `/api` to local port 8001 by default.
+- [ ] Commit `frontend/` source files to repo (exclude `node_modules/` and `dist/`)
+- [ ] Validate the full browser flow against a reachable backend with the embedding model available.
+
+## Design system status (2026-08-20)
+
+- [x] Audited Android theme, typography, shared components, and all Compose screen styling alongside the React frontend.
+- [x] Added the binding ContextIQ cross-platform contract to `.ai/design-system.md`.
+- [x] Added Android `ContextIQDesign` tokens and made the ContextIQ brand theme deterministic (`dynamicColor = false`).
+- [x] Added matching semantic layout tokens to the black-and-white web frontend without changing its pure black/white palette.
+- [ ] Incrementally migrate existing Android screens from raw dp/radius literals to `ContextIQDesign` as they are next edited; do not do a risky all-screen visual rewrite without device QA.
 
 ---
 
 ## Next Steps (in order)
 
-1. **[ ] React frontend** — chat UI with SSE streaming, document upload, observability dashboard
-2. **[ ] Deploy to Railway** — Docker Compose + public URL
-3. **[ ] Android rewire** — point Retrofit base URL to deployed backend
-4. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
+1. **[ ] Commit working tree** — stage reviewed changes + frontend source, push to `main`
+2. **[ ] Android-backend endpoint alignment** — Android currently calls `/analyze/*` and `/tools/*`; backend only has `/documents/upload`, `/query`, `/query/stream`, `/evaluation/*`. This is the biggest blocker for a mobile demo.
+3. **[ ] Deploy to Railway** — Docker Compose + public URL
+4. **[ ] Android rewire** — point Retrofit to deployed backend endpoints
+5. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
 
 ---
 
@@ -53,7 +83,7 @@ Next (choose one): React frontend, Railway deploy, or finish interview-portfolio
 # Local backend
 cd /home/mad/StudioProjects/ContextIQ/backend
 source venv/bin/activate
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8001
 
 # Docker Compose
 cd /home/mad/StudioProjects/ContextIQ/backend

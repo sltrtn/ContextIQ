@@ -40,7 +40,7 @@
 - ✅ `api/routes/documents.py` — upload + status endpoints
 - ✅ `api/routes/query.py` — hybrid query + SSE stream + config parameter
 - ✅ `core/embeddings.py` — factory: fastembed (384d, local) / openai (1536d)
-- ✅ `core/llm.py` — factory: groq (Llama 3.3 70B) / openai (GPT-4o-mini)
+- ✅ `core/llm.py` — factory: groq (`openai/gpt-oss-120b`) / openai (GPT-4o-mini)
 
 ### Phase 0 — Bug Fixes + Global BM25 ✅
 - ✅ Fixed `query.py` hardcoded OpenAI → `get_llm()`

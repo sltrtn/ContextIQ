@@ -48,13 +48,13 @@ class Settings(BaseSettings):
     qdrant_url: str = ":memory:"
     llm_provider: str = "groq"
     groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
 ```
 
 What this does:
 - Reads settings from a `.env` file.
 - Defaults to **fastembed** for embeddings (local, free, offline).
-- Defaults to **groq** for LLM (free tier, Llama 3.3 70B).
+- Defaults to **groq** for LLM (free tier, openai/gpt-oss-120b).
 - Stores keys for OpenAI, Cohere, Groq, and Qdrant.
 
 ### Why fastembed and groq as defaults?
@@ -62,7 +62,7 @@ What this does:
 Because your OpenAI key had no billing credits when you built the project.
 
 - `fastembed` runs locally using ONNX (no API calls, no cost).
-- `groq` gives free access to a strong Llama 3.3 70B model.
+- `groq` gives free access to a strong hosted LLM (`openai/gpt-oss-120b`).
 - Both can be swapped to OpenAI by changing one environment variable.
 
 This is a real engineering decision: you abstracted the provider so you could develop without billing while keeping production-grade providers available.

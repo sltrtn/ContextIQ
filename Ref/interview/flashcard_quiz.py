@@ -24,7 +24,7 @@ FLASHCARDS = [
     ("Why is fine-tuning not the right solution here?", "Expensive, requires retraining when documents change, and cannot cite sources."),
     ("What web framework does ContextIQ use?", "FastAPI."),
     ("What is the default embedding provider and model?", "fastembed with BAAI/bge-small-en-v1.5, producing 384-dimensional vectors."),
-    ("What is the default LLM provider and model?", "Groq with llama-3.3-70b-versatile."),
+    ("What is the default LLM provider and model?", "Groq with openai/gpt-oss-120b."),
     ("Why are fastembed and Groq the defaults?", "OpenAI key had no billing credits; fastembed and Groq are free for development."),
     ("What pattern do embeddings.py and llm.py use?", "Factory / strategy pattern — provider is swappable."),
     ("What file types can be uploaded?", "PDF, DOCX, TXT."),

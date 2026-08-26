@@ -29,7 +29,7 @@ This is the entire architecture of ContextIQ.
 - What it does: predict the next token, given the tokens that came before.
 - Everything else — writing, reasoning, coding — emerges from that one task.
 - Analogy: an extremely well-read autocomplete.
-- In your code: `backend/app/core/llm.py` — uses Groq's `llama-3.3-70b-versatile`.
+- In your code: `backend/app/core/llm.py` — uses Groq's `openai/gpt-oss-120b`.
 
 ### 2. Embedding
 - What it is: text converted into a list of numbers (a vector).

@@ -10,7 +10,7 @@
 
 > "I built **ContextIQ**, a production-grade RAG system that answers questions over research papers with **cited, page-accurate sources**. The problem: LLMs hallucinate on domain-specific papers and can't cite where an answer came from. My insight was that **retrieval quality is measurable** — so I built the whole pipeline around evaluation, not just demos.
 >
-> The flow is: **upload a PDF** → parse and chunk with contextual summaries → index into **Qdrant** (dense vectors) and a **BM25** sparse index → at query time, fuse both with **Reciprocal Rank Fusion** → rerank with a **Cohere cross-encoder** → generate an answer with **Groq Llama-3.3-70B** that cites sources like `[1] filename.pdf (p.5)`. Every live query also runs a **faithfulness check** so the user knows if the answer is grounded.
+> The flow is: **upload a PDF** → parse and chunk with contextual summaries → index into **Qdrant** (dense vectors) and a **BM25** sparse index → at query time, fuse both with **Reciprocal Rank Fusion** → rerank with a **Cohere cross-encoder** → generate an answer with **Groq openai/gpt-oss-120b** that cites sources like `[1] filename.pdf (p.5)`. Every live query also runs a **faithfulness check** so the user knows if the answer is grounded.
 >
 > I exposed 5 retrieval configs behind one endpoint, benchmarked all of them on a 30-question test set, and wrote a **custom LLM-as-judge** — no black-box RAGAs library. Stack: FastAPI, LlamaIndex, Qdrant, fastembed, Groq, Cohere, Docker Compose, and 39 pytest tests."
 
@@ -35,7 +35,7 @@ Pick ONE of these (they are your strongest stories):
 | LlamaIndex | Orchestrates parsing, chunking, vector indexing, and retrieval; pluggable components. |
 | Qdrant | Vector database; supports in-memory dev and persistent deployment via Docker. |
 | fastembed / BAAI/bge-small-en-v1.5 | Local embeddings, 384d, zero API cost, good enough for research papers. |
-| Groq / Llama-3.3-70B-Versatile | Fast, cheap inference on a capable model; free tier handles eval workloads. |
+| Groq / openai/gpt-oss-120b | Fast, cheap inference on a capable model; free tier handles eval workloads. |
 | Cohere rerank-english-v3.0 | Cross-encoder reranker — much more accurate than cosine similarity for ordering. |
 | rank-bm25 | Lexical sparse retrieval — catches exact terms and acronyms embeddings miss. |
 | RRF (K=60) | Combines dense + sparse rankings without training; robust fusion method. |
@@ -199,7 +199,7 @@ Offer one of these briefly:
 ## Rapid-fire recall (say these out loud before bed)
 
 1. ContextIQ = research-paper RAG with cited, page-accurate answers.
-2. Stack: FastAPI + LlamaIndex + Qdrant + fastembed + Groq Llama-3.3-70B + Cohere rerank.
+2. Stack: FastAPI + LlamaIndex + Qdrant + fastembed + Groq openai/gpt-oss-120b + Cohere rerank.
 3. Ingestion: pypdf/DOCX parsing → contextual chunking (512 tokens, 50 overlap) → Qdrant + BM25.
 4. Retrieval: 5 configs — `vector_only`, `vector_rerank`, `hybrid`, `hybrid_rerank`, `long_context`.
 5. Best P@5: `vector_rerank` = 0.9933; best speed/quality balance: `hybrid` = 3.6 s, MRR 1.0.

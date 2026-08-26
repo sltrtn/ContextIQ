@@ -77,7 +77,7 @@ Most RAG projects are built to work. ContextIQ is built to be measured:
 | Sparse Retrieval | BM25 (rank-bm25) |
 | Fusion | Reciprocal Rank Fusion (RRF, K=60) |
 | Reranking | Cohere `rerank-english-v3.0` |
-| LLM | Groq `llama-3.3-70b-versatile` |
+| LLM | Groq `openai/gpt-oss-120b` |
 | Evaluation | Custom LLM-as-judge + retrieval metrics |
 | Android | Kotlin, Jetpack Compose, Retrofit, Room |
 
@@ -88,26 +88,26 @@ Most RAG projects are built to work. ContextIQ is built to be measured:
 ```bash
 cd backend
 source venv/bin/activate
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8001
 ```
 
 Upload a paper and query:
 
 ```bash
 # Health check
-curl http://localhost:8000/api/v1/health
+curl http://localhost:8001/api/v1/health
 
 # Upload
-curl -s -X POST http://localhost:8000/api/v1/documents/upload \
+curl -s -X POST http://localhost:8001/api/v1/documents/upload \
   -F "file=@data/papers/2305.18290_DPO.pdf"
 
 # Query (full pipeline)
-curl -s -X POST http://localhost:8000/api/v1/query \
+curl -s -X POST http://localhost:8001/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "What does DPO stand for?", "top_k": 5, "config": "hybrid_rerank"}'
 
 # Query with expansion
-curl -s -X POST http://localhost:8000/api/v1/query \
+curl -s -X POST http://localhost:8001/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "What does DPO stand for?", "expand": true}'
 ```
@@ -165,7 +165,7 @@ python run_retrieval_metrics.py
 python run_eval.py
 
 # API evaluation endpoint (subset)
-curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
+curl -s -X POST http://localhost:8001/api/v1/evaluation/run \
   -H "Content-Type: application/json" \
   -d '{"config": "vector_only", "max_questions": 5}'
 ```
@@ -189,7 +189,7 @@ cd backend
 pytest tests/ -v
 ```
 
-33 unit tests covering parser, chunker (with mock LLM), BM25, RRF fusion, reranker fallback, context assembly, and query expansion fallback.
+39 unit tests covering parser, chunker (with mock LLM), BM25, RRF fusion, reranker fallback, context assembly, and query expansion fallback.
 
 ## Key Features
 

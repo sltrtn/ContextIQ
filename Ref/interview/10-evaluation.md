@@ -109,7 +109,7 @@ What it does:
 
 ### Limitation
 
-The faithfulness judge is the same model family as the generator (Groq Llama 3.3 70B). It can share the generator's blind spots. A stronger version would use a different, larger model as judge.
+The faithfulness judge is the same model as the generator (Groq openai/gpt-oss-120b). It can share the generator's blind spots. A stronger version would use a different, larger model as judge.
 
 ## Why this matters in an interview
 

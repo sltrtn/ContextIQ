@@ -14,7 +14,7 @@
 | Docker Compose | ✅ Files present |
 | React frontend | ⚠️ Built but **uncommitted** |
 | Android app | ❌ **Endpoint mismatch with backend** |
-| Docs / README | ⚠️ Outdated model name (Llama 3.3 70B retired) |
+| Docs / README | ✅ Model name updated to `openai/gpt-oss-120b` |
 | Deployment | ❌ Not deployed |
 
 ---
@@ -88,14 +88,9 @@ Backend only has:
 
 **Severity:** Critical
 
-`llama-3.3-70b-versatile` is no longer available on Groq. We patched `backend/app/core/config.py` to use `openai/gpt-oss-120b`, but:
+`llama-3.3-70b-versatile` is no longer available on Groq. We patched `backend/app/core/config.py` to use `openai/gpt-oss-120b`, and bulk-updated README, AGENTS.md, and all `.ai/` docs. The remaining stale references are in historical `.ai/decisions.md` entries (kept for context) and should not be relied on.
 
-- `README.md` still says "Groq `llama-3.3-70b-versatile`"
-- `.ai/project.md` still says "Groq Llama 3.3 70B Versatile"
-- `.ai/roadmap.md` still says "Groq Llama 3.3 70B"
-- Stack table, architecture diagram, and handoff docs are all stale
-
-**Action:** Bulk-update all docs to reflect the actual model.
+**Action:** None — docs updated. Verify no stale references remain with `grep -R "llama-3.3-70b-versatile"`.`
 
 ---
 
@@ -157,7 +152,7 @@ A React + Vite frontend exists in `frontend/` with a polished single-file UI, bu
 Port 8000 has an orphaned socket from a previous judge project (no process, but socket occupied). Backend currently runs on 8001, but:
 - README examples use port 8000
 - Docker Compose exposes 8000
-- Android `build.gradle.kts` points to `10.0.2.2:8000`
+- Android `build.gradle.kts` points to `10.0.2.2:8001` ✅ updated; endpoint mismatch still remains
 
 **Action:** Either free port 8000 or standardize the entire project on 8001.
 
@@ -190,7 +185,7 @@ Port 8000 has an orphaned socket from a previous judge project (no process, but 
    - Align Android endpoints with backend, OR
    - Implement backend endpoints that Android expects
 2. **Update all documentation**
-   - Replace `llama-3.3-70b-versatile` with actual model name everywhere
+   - ~~Replace `llama-3.3-70b-versatile` with actual model name everywhere~~ ✅ Done
    - Fix README test count (says 33, actual 39)
    - Update port references to current reality
 3. **Persistent Qdrant as default**

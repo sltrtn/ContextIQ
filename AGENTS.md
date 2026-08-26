@@ -40,7 +40,7 @@ ContextIQ/                    ← git repo root
 | Sparse Retrieval | BM25 (rank-bm25), global singleton |
 | Fusion | RRF (K=60) |
 | Reranking | Cohere Rerank (rerank-english-v3.0) |
-| LLM | Groq (Llama 3.3 70B Versatile, free) |
+| LLM | Groq (`openai/gpt-oss-120b`) |
 | Document Parsing | pypdf (PDF), python-docx (DOCX) |
 | Evaluation | Custom LLM-as-judge (faithfulness, relevancy, precision, recall) |
 | Web Frontend | React + Recharts (planned) |
@@ -84,27 +84,27 @@ ContextIQ/                    ← git repo root
 ./gradlew test
 
 # Run backend server
-cd backend && source venv/bin/activate && uvicorn app.main:app --reload --port 8000
+cd backend && source venv/bin/activate && uvicorn app.main:app --reload --port 8001
 
 # Test health
-curl http://localhost:8000/api/v1/health
+curl http://localhost:8001/api/v1/health
 
 # Upload document
-curl -s -X POST http://localhost:8000/api/v1/documents/upload \
+curl -s -X POST http://localhost:8001/api/v1/documents/upload \
   -F "file=@data/papers/2305.18290_DPO.pdf"
 
 # Query (full pipeline)
-curl -s -X POST http://localhost:8000/api/v1/query \
+curl -s -X POST http://localhost:8001/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "What is QLoRA?", "top_k": 5, "config": "hybrid_rerank"}'
 
 # Query with expansion
-curl -s -X POST http://localhost:8000/api/v1/query \
+curl -s -X POST http://localhost:8001/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "What is QLoRA?", "expand": true}'
 
 # Run evaluation
-curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
+curl -s -X POST http://localhost:8001/api/v1/evaluation/run \
   -H "Content-Type: application/json" \
   -d '{"config": "vector_only", "max_questions": 5}'
 

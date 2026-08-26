@@ -33,7 +33,7 @@ A: FastAPI.
 A: fastembed with `BAAI/bge-small-en-v1.5`, producing 384-dimensional vectors.
 
 **Q: What is the default LLM provider?**
-A: Groq with `llama-3.3-70b-versatile`.
+A: Groq with `openai/gpt-oss-120b`.
 
 **Q: Why are fastembed and Groq the defaults?**
 A: The OpenAI key had no billing credits; fastembed and Groq are free for development.

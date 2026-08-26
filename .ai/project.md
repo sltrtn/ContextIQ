@@ -52,7 +52,7 @@ Context assembly:
   2. Lost-in-the-middle ordering
   3. Source labels: [1] filename.pdf (p.5): <chunk>
           ↓
-LLM generation (Groq Llama 3.3 70B)
+LLM generation (Groq openai/gpt-oss-120b)
           ↓
 Faithfulness post-check (claim extraction + verification)
           ↓
@@ -80,7 +80,7 @@ Response: answer + sources + metadata + faithfulness score
 
 | Service | Purpose | Auth Method |
 |---|---|---|
-| Groq | LLM (Llama 3.3 70B Versatile) — free tier | API key in .env |
+| Groq | LLM (`openai/gpt-oss-120b`) — free tier | API key in .env |
 | Cohere | Cross-encoder reranking (rerank-english-v3.0) | API key in .env |
 | fastembed | Local embeddings (BAAI/bge-small-en-v1.5, 384d) | None (ONNX runtime) |
 | Qdrant | Vector storage and dense retrieval (in-memory) | None (local) |

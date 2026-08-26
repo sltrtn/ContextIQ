@@ -90,7 +90,7 @@ Set up the backend project structure and Python environment.
 
 **Provider factories added (no hardcoded API dependency):**
 - `backend/app/core/embeddings.py` — `get_embed_model()`: fastembed (384d local) or openai
-- `backend/app/core/llm.py` — `get_llm()`: groq (Llama 3.3 70B free) or openai
+- `backend/app/core/llm.py` — `get_llm()`: groq (`openai/gpt-oss-120b` free) or openai
 - `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY` added to config + .env.template
 
 **First upload test:**
@@ -252,7 +252,7 @@ All changes from the 2026-07-04 session committed and pushed.
 - `config.py` — added `active_llm_model` and `active_embedding_model` properties
 - `query.py` — response metadata now reports the actual model in use
 - `main.py` — startup log and `/health` report the actual model
-- Prevents the bug where Groq Llama-3.3-70B runs but the API claims `gpt-4o-mini`
+- Prevents the bug where Groq `openai/gpt-oss-120b` runs but the API claims `gpt-4o-mini`
 
 **Interview quick sheet:**
 - Created `Ref/interview/ContextIQ-Interview-Quick-Sheet.md`
@@ -267,3 +267,38 @@ All changes from the 2026-07-04 session committed and pushed.
 - Portfolio storytelling (resume, LinkedIn post, eval screenshots)
 - Mock interview drills using the quick sheet
 - Pending: React frontend / Railway deploy / full LLM-judge eval (needs paid tier)
+
+## 2026-08-19 — LinkedIn Portfolio Draft
+
+**Added:** `Ref/portfolio/ContextIQ-LinkedIn-Post.md`
+
+- Ready-to-post LinkedIn copy built around the measured finding that `vector_rerank` outperformed `hybrid_rerank` (P@5 0.9933 vs 0.8533).
+- Explicitly scopes the result as retrieval-only, 30 questions × 5 papers, with paper-level relevance as the proxy; avoids overstating it as LLM-judge or human passage-level evidence.
+- Added safe live-query screenshot instructions, including a redaction/crop checklist.
+
+**Blocker:** Could not create the requested real live-server screenshot in this environment. Port 8001 is already reserved but has no reachable listener, and the local `fastembed` model is not cached while outbound Hugging Face access fails DNS resolution. No synthetic screenshot was created.
+
+## 2026-08-19 — React Frontend Visual Prototype
+
+**Added:** `frontend/` — minimal Vite + React + TypeScript app.
+
+- Built a pure black-and-white, Outfit-only research interface for ContextIQ.
+- Includes document dropzone, query composer, three selectable pipeline modes, animated ask action, response / faithfulness layout, and source cards.
+- Uses transform, clipping, layout, and border animations for hover/click feedback without adding non-black/white colors.
+- It is intentionally a client-side prototype. Upload/query API calls remain unwired until a reachable backend is available; no credentials were added.
+
+## 2026-08-19 — React API Wiring
+
+- Replaced mocked upload/query interaction with real `FormData` upload to `/api/v1/documents/upload` and JSON query requests to `/api/v1/query`.
+- The UI now renders the API answer, model, latency, faithfulness score, source names and pages; each result is request-specific.
+- Added upload/query loading states, API error display, and a Vite development proxy from `/api` to `http://127.0.0.1:8001`.
+- Full browser-to-backend validation remains blocked until port 8001 and its locally cached embedding model are available.
+
+## 2026-08-20 — ContextIQ Cross-Platform Design Language
+
+- Audited the Android `Color.kt`, `Theme.kt`, `Type.kt`, shared Compose components, and all screen-level styling patterns against the React frontend.
+- Added a binding ContextIQ Android/web contract to `.ai/design-system.md`: Outfit, shared spacing/radius/control tokens, flat evidence cards, numbered workflow, answer anatomy, and interaction/state rules.
+- Added `app/.../ui/theme/ContextIQDesign.kt` as the Android token source and linked the standard `pressScale()` default to it.
+- Changed `ContextIQTheme` to disable Material dynamic color by default, so the authored Scholarly Navy brand is not replaced by device wallpaper colors.
+- Added matching semantic spacing/radius tokens to the React stylesheet while preserving its strict `#000`/`#fff` palette.
+- Existing Android screens contain historical raw dp/radius values; migrate them incrementally with device QA rather than mass-changing 14 screens without visual verification.

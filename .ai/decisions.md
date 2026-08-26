@@ -126,9 +126,9 @@
 
 ## 2026-07-04 — Groq as Free LLM Fallback
 
-**Decision:** Add `LLM_PROVIDER` env var supporting `groq` (free Llama 3.3 70B) and `openai` (GPT-4o-mini). Default to `groq` during development.
+**Decision:** Add `LLM_PROVIDER` env var supporting `groq` (free `openai/gpt-oss-120b`) and `openai` (GPT-4o-mini). Default to `groq` during development.
 
-**Reason:** OpenAI key has no billing credits. Groq provides free access to Llama 3.3 70B Versatile with very generous rate limits — suitable for development and RAGAs evaluation.
+**Reason:** OpenAI key has no billing credits. Groq provides free access to capable hosted models with generous rate limits — suitable for development and RAGAs evaluation. (Originally Llama 3.3 70B Versatile; now `openai/gpt-oss-120b` after Groq retired the Llama model.)
 
 **Alternatives Considered:**
 - Ollama local — not available on this machine

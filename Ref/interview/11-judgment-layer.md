@@ -20,7 +20,7 @@ Key decisions to own:
 | Monorepo layout | Single source of truth, stronger portfolio story |
 | All AI calls through backend | Security — no keys in Android, centralized control |
 | FastEmbed default | OpenAI had no billing; local ONNX, zero cost |
-| Groq default | OpenAI had no billing; free fast Llama 3.3 70B |
+| Groq default | OpenAI had no billing; free fast hosted LLM (now `openai/gpt-oss-120b`) |
 | Contextual chunking | Preserves document context per chunk |
 | Global BM25 at ingest | Earlier per-query rebuild from dense results was semantically wrong |
 | Custom LLM-as-judge | RAGAs import was broken; custom gives full control |
@@ -33,7 +33,7 @@ Key decisions to own:
 
 Do not recite the README. Trace the actual flow:
 
-> "The request hits `/api/v1/query`. We read the `config` param, defaulting to `hybrid_rerank`. If `expand=true`, we rewrite the question into variants. Then we retrieve: dense from Qdrant, sparse from BM25, fuse with RRF, optionally rerank with Cohere, assemble context with dedup and lost-in-the-middle ordering, prompt Groq Llama to generate an answer with citations, and finally run a faithfulness check."
+> "The request hits `/api/v1/query`. We read the `config` param, defaulting to `hybrid_rerank`. If `expand=true`, we rewrite the question into variants. Then we retrieve: dense from Qdrant, sparse from BM25, fuse with RRF, optionally rerank with Cohere, assemble context with dedup and lost-in-the-middle ordering, prompt Groq openai/gpt-oss-120b to generate an answer with citations, and finally run a faithfulness check."
 
 ### "Why RRF and not just averaging scores?"
 
@@ -97,8 +97,8 @@ Qdrant             global singleton
              ▼
   Context assembly
              ▼
-  Groq Llama generates answer
-             ▼
+  Groq openai/gpt-oss-120b generates answer
+          ▼
   Faithfulness check
              ▼
   Answer + sources + score

@@ -1,7 +1,7 @@
 # Handoff — Session End
 
-> **Last updated:** 2026-08-16
-> **Last action:** Created `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` — TCS Prime-style last-minute revision sheet for ContextIQ interviews.
+> **Last updated:** 2026-08-19
+> **Last action:** Defined the ContextIQ Android/web design contract and added platform tokens; React API wiring is complete but awaits a reachable backend for live validation.
 
 ---
 
@@ -15,7 +15,7 @@
 | Qdrant in-memory | ✅ works, **data lost on server restart** |
 | Cohere Rerank | ✅ working |
 | BM25 + RRF fusion | ✅ working |
-| Groq LLM (Llama 3.3 70B) | ✅ working |
+| Groq LLM (openai/gpt-oss-120b) | ✅ working |
 | Query rewriting/expansion | ✅ LLM generates 2-3 query variants |
 | Context assembly | ✅ dedup, lost-in-the-middle ordering, source labels |
 | Faithfulness post-check | ✅ LLM-as-judge claim verification |
@@ -26,7 +26,10 @@
 | Docker Compose | ✅ persistent Qdrant + backend |
 | README | ✅ architecture, eval table, PDF mapping, getting started |
 | Interview quick sheet | ✅ `Ref/interview/ContextIQ-Interview-Quick-Sheet.md` created |
-| React frontend | ⏳ not started |
+| LinkedIn post draft | ✅ `Ref/portfolio/ContextIQ-LinkedIn-Post.md` created |
+| Live portfolio screenshot | ⏳ Blocked in this environment (port/model-cache/network issue) |
+| React frontend | ✅ `frontend/` is wired to upload/query APIs; full live validation pending reachable backend |
+| Cross-platform design system | ✅ documented contract + Android/web tokens; Android migration is incremental |
 | Railway deploy | ⏳ not started |
 
 ---
@@ -113,21 +116,21 @@ cd /home/mad/StudioProjects/ContextIQ/backend
 source venv/bin/activate
 
 # Run server
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8001
 
 # Test
-curl http://localhost:8000/api/v1/health
+curl http://localhost:8001/api/v1/health
 
 # Upload + query
-curl -s -X POST http://localhost:8000/api/v1/documents/upload \
+curl -s -X POST http://localhost:8001/api/v1/documents/upload \
   -F "file=@../data/papers/2305.18290_DPO.pdf"
 
-curl -s -X POST http://localhost:8000/api/v1/query \
+curl -s -X POST http://localhost:8001/api/v1/query \
   -H "Content-Type: application/json" \
   -d '{"question": "What is QLoRA?", "top_k": 3, "config": "hybrid_rerank"}' | python3 -m json.tool
 
 # Run evaluation
-curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
+curl -s -X POST http://localhost:8001/api/v1/evaluation/run \
   -H "Content-Type: application/json" \
   -d '{"config": "vector_only", "max_questions": 5}' | python3 -m json.tool
 ```
@@ -136,8 +139,10 @@ curl -s -X POST http://localhost:8000/api/v1/evaluation/run \
 
 ## Next Steps
 
-1. **React frontend** — chat UI + upload + observability dashboard
-2. **Railway deploy** — Docker Compose + public URL
-3. **Full LLM-judge evaluation** — requires paid Groq/OpenAI tier (free tier 100k tokens/day is insufficient for 150 calls)
-4. **Contextual chunking improvement** — section detection is coarse, may need better regex
-5. **Android rewire** — point Retrofit to deployed backend
+1. **Capture the LinkedIn live-query screenshot** — start from the exact command in `Ref/portfolio/ContextIQ-LinkedIn-Post.md`; crop to response-only and never expose `.env`/headers. If port 8001 remains stuck, identify and stop only the confirmed orphan before retrying.
+2. **Validate / extend React frontend** — run the wired upload/query flow against a reachable backend, then add an observability dashboard.
+3. **Android visual migration** — apply `ContextIQDesign` tokens to the next edited Compose screens, with emulator/device QA.
+3. **Railway deploy** — Docker Compose + public URL
+4. **Full LLM-judge evaluation** — requires paid Groq/OpenAI tier (free tier 100k tokens/day is insufficient for 150 calls)
+5. **Contextual chunking improvement** — section detection is coarse, may need better regex
+6. **Android rewire** — point Retrofit to deployed backend

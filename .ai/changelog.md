@@ -48,7 +48,7 @@ Forked from Scholium (`arnavt1605/Scholium`). Initial commit with ContextIQ bran
 
 **Provider factories** (switch between free-tier and paid without code changes):
 - `core/embeddings.py` — `get_embed_model()`: fastembed (local ONNX, 384d, free) or openai (1536d)
-- `core/llm.py` — `get_llm()`: groq (Llama 3.3 70B, free) or openai (GPT-4o-mini)
+- `core/llm.py` — `get_llm()`: groq (`openai/gpt-oss-120b`, free) or openai (GPT-4o-mini)
 - Config: `EMBEDDING_PROVIDER`, `LLM_PROVIDER`, `GROQ_API_KEY`
 
 **First upload tested:** 76 chunks embedded via fastembed ✅
