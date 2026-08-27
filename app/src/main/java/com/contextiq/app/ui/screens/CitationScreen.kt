@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
-import com.contextiq.app.network.dto.CitationRequest
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,27 +34,7 @@ fun CitationScreen(navController: NavController) {
 
     fun fetchCitation(doi: String, style: String) {
         if (doi.isBlank()) return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val cleanDoi = doi
-                    .replace("https://doi.org/", "")
-                    .replace("http://dx.doi.org/", "")
-                    .trim()
-                val response = ContextIQClient.api.citation(
-                    CitationRequest(doi = cleanDoi, style = style),
-                )
-                if (response.isSuccessful) {
-                    val citation = response.body()?.citation ?: "No citation generated."
-                    state = UiState.Success(citation)
-                } else {
-                    state = UiState.Error("Could not fetch citation. Check the DOI.")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("Citation generation is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask questions about it.")
     }
 
     Scaffold(

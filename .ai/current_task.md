@@ -6,16 +6,16 @@
 
 ## Objective
 
-**Backend build + evaluation complete. README, tests, Docker Compose, retrieval metrics, React frontend, and interview prep docs are done.**
+**Backend build + evaluation complete. README, tests, Docker Compose, retrieval metrics, React frontend, interview prep docs, and Android-backend alignment are done.**
 
 Recently completed (this session):
-- Bulk-updated every document to the current Groq model (`openai/gpt-oss-120b`)
-- Standardized local-dev port references to 8001
-- Fixed README test count (33 → 39)
-- Increased faithfulness context window (500 → 2000 chars)
-- Updated Android `build.gradle.kts` base URL to 8001
+- Rewrote Android `ContextIQApi.kt` to use real backend endpoints: `/api/v1/documents/upload`, `/api/v1/query`, `/api/v1/query/stream`
+- Added backend-aligned DTOs (`BackendDto.kt`)
+- Rewired `PaperAnalyzerScreen` to upload PDFs and chat via `/query`
+- Stubbed unsupported screens with honest "not supported by current backend" messages
+- Verified Kotlin compilation passes (full APK build blocked only by environment JDK 26 vs Android SDK 35)
 
-Next focus: clean working tree + commit, then Android-backend endpoint alignment.
+Next focus: deploy backend so Android + frontend can hit a live URL.
 
 ---
 
@@ -40,10 +40,9 @@ Next focus: clean working tree + commit, then Android-backend endpoint alignment
 - [x] All docs updated to current model (`openai/gpt-oss-120b`) ✅
 - [x] React frontend built ✅
 - [x] Faithfulness context window increased ✅
-- [ ] Commit React frontend and all working-tree changes
+- [x] Android-backend endpoint alignment ✅
 - [ ] Deploy to Railway
 - [ ] Full LLM-judge evaluation (needs paid tier)
-- [ ] Android-backend endpoint alignment
 
 ## Portfolio status (2026-08-19)
 
@@ -69,11 +68,10 @@ Next focus: clean working tree + commit, then Android-backend endpoint alignment
 
 ## Next Steps (in order)
 
-1. **[ ] Commit working tree** — stage reviewed changes + frontend source, push to `main`
-2. **[ ] Android-backend endpoint alignment** — Android currently calls `/analyze/*` and `/tools/*`; backend only has `/documents/upload`, `/query`, `/query/stream`, `/evaluation/*`. This is the biggest blocker for a mobile demo.
-3. **[ ] Deploy to Railway** — Docker Compose + public URL
-4. **[ ] Android rewire** — point Retrofit to deployed backend endpoints
-5. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
+1. **[ ] Deploy to Railway** — Docker Compose + public URL
+2. **[ ] Point Android + frontend to deployed URL** — update base URL from `10.0.2.2:8001` to public Railway URL
+3. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
+4. **[ ] Re-implement unsupported Android screens** — only if needed for portfolio; currently stubbed with honest messages
 
 ---
 

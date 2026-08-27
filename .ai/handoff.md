@@ -1,7 +1,7 @@
 # Handoff — Session End
 
 > **Last updated:** 2026-08-20
-> **Last action:** Bulk docs/model/port sweep; committed React frontend, Android design tokens, and faithfulness fix.
+> **Last action:** Android-backend endpoint alignment complete — Paper Analyzer uploads and queries the real backend; unsupported screens stubbed.
 
 ---
 

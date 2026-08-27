@@ -27,14 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
@@ -63,40 +57,7 @@ fun PaperReviewerScreen(navController: NavController) {
     }
 
     fun runReview() {
-        val file = pdfFile ?: return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val requestFile = file.asRequestBody("application/pdf".toMediaTypeOrNull())
-                val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
-                val response = ContextIQClient.api.paperReview(part)
-
-                if (response.isSuccessful && response.body() != null) {
-                    val r = response.body()!!
-                    val review = buildString {
-                        appendLine(r.review)
-                        if (r.strengths.isNotEmpty()) {
-                            appendLine("\nSTRENGTHS")
-                            r.strengths.forEach { appendLine("- $it") }
-                        }
-                        if (r.weaknesses.isNotEmpty()) {
-                            appendLine("\nWEAKNESSES")
-                            r.weaknesses.forEach { appendLine("- $it") }
-                        }
-                        if (r.suggestions.isNotEmpty()) {
-                            appendLine("\nSUGGESTIONS")
-                            r.suggestions.forEach { appendLine("- $it") }
-                        }
-                    }
-                    state = UiState.Success(review)
-                } else {
-                    state = UiState.Error("API Error: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("Structured paper review is not supported as a dedicated endpoint. Use Paper Analyzer to upload the PDF and ask: 'Review this paper and list strengths, weaknesses, and suggestions'.")
     }
 
     Scaffold(

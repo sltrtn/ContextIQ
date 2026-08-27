@@ -20,11 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
 import com.contextiq.app.network.dto.PaperDto
-import com.contextiq.app.network.dto.RelatedPapersRequest
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,28 +34,8 @@ fun RelatedPapersScreen(navController: NavController) {
     var state by remember { mutableStateOf<UiState<List<PaperDto>>>(UiState.Idle) }
 
     fun searchPapers(query: String) {
-        if (query.isBlank()) return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val response = ContextIQClient.api.relatedPapers(
-                    RelatedPapersRequest(query = query, limit = 10),
-                )
-                if (response.isSuccessful && response.body() != null) {
-                    val papers = response.body()!!.papers
-                    state = if (papers.isEmpty()) {
-                        UiState.Error("No related papers found.")
-                    } else {
-                        UiState.Success(papers)
-                    }
-                } else {
-                    state = UiState.Error("Could not fetch results.")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        @Suppress("UNCHECKED_CAST")
+        state = UiState.Error("External paper search is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask about related work mentioned in the paper.") as UiState<List<PaperDto>>
     }
 
     Scaffold(

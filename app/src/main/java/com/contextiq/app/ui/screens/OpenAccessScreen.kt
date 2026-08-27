@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
-import com.contextiq.app.network.dto.OpenAccessRequest
 import com.contextiq.app.network.dto.OpenAccessResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,26 +34,8 @@ fun OpenAccessScreen(navController: NavController) {
 
     fun checkOpenAccess(doi: String) {
         if (doi.isBlank()) return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val cleanDoi = doi
-                    .replace("https://doi.org/", "")
-                    .replace("http://dx.doi.org/", "")
-                    .trim()
-                val response = ContextIQClient.api.openAccess(
-                    OpenAccessRequest(doi = cleanDoi),
-                )
-                if (response.isSuccessful && response.body() != null) {
-                    state = UiState.Success(response.body()!!)
-                } else {
-                    state = UiState.Error("DOI not found in Open Access databases.")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        @Suppress("UNCHECKED_CAST")
+        state = UiState.Error("Open-access lookup is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask questions about it.") as UiState<OpenAccessResponse>
     }
 
     Scaffold(

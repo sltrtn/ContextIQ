@@ -278,8 +278,10 @@ All changes from the 2026-07-04 session committed and pushed.
 - `e89e849` feat(frontend): add React/Vite frontend
 - `8d21634` chore(gitignore): ignore frontend build artifacts
 
+**Closed in this session:**
+- Android endpoints now aligned with backend (only Paper Analyzer fully wired; other screens stubbed honestly)
+
 **Still open (biggest blockers):**
-- Android endpoints (`/analyze/*`, `/tools/*`, `/chat/stream`) do not match backend endpoints
 - Qdrant `:memory:` loses data on restart
 - Cohere trial rate limit makes evaluation slow
 - No API auth / rate limiting
@@ -343,3 +345,32 @@ All changes from the 2026-07-04 session committed and pushed.
 - Changed `ContextIQTheme` to disable Material dynamic color by default, so the authored Scholarly Navy brand is not replaced by device wallpaper colors.
 - Added matching semantic spacing/radius tokens to the React stylesheet while preserving its strict `#000`/`#fff` palette.
 - Existing Android screens contain historical raw dp/radius values; migrate them incrementally with device QA rather than mass-changing 14 screens without visual verification.
+
+---
+
+## 2026-08-20 — Android-Backend Endpoint Alignment
+
+**Problem:** Android app called endpoints from the old Scholium backend (`/analyze/*`, `/tools/*`, `/chat/stream`) that did not exist in the ContextIQ FastAPI backend.
+
+**Solution:**
+- Rewrote `app/.../network/ContextIQApi.kt` to expose only real backend endpoints:
+  - `POST api/v1/documents/upload`
+  - `POST api/v1/query`
+  - `POST api/v1/query/stream`
+  - `GET api/v1/health`
+- Added `app/.../network/dto/BackendDto.kt` with `UploadResponse`, `QueryRequest`, `QueryResponse`, `QuerySourceDto`, `FaithfulnessCheckDto`, `QueryMetadataDto`.
+- Rewired `PaperAnalyzerScreen`:
+  - PDF picker uploads to `/documents/upload`
+  - Chat sends messages to `/query` (non-streaming, `hybrid_rerank`, top_k=5)
+  - Response shows answer + source filenames/pages + faithfulness score
+  - Messages and sessions saved to Room DB as before
+- Stubbed 9 unsupported screens with honest error messages:
+  - AbstractSummary, Citation, ClaimVerifier, JournalMatcher, LatexGenerator, LitReviewer, OpenAccess, PaperReviewer, RelatedPapers, ReviewRebuttal
+  - Each now explains that the feature is not supported and directs the user to Paper Analyzer.
+
+**Build verification:**
+- `./gradlew :app:compileDebugKotlin` passes with only deprecation warnings.
+- Full `assembleDebug` fails at `compileDebugJavaWithJavac` due to environment JDK 26 being incompatible with Android SDK 35 `jlink` step. This is a machine-level JDK issue, not a code issue. To fully build the APK, switch to JDK 17 or 21.
+
+**Commits:**
+- (to be committed after this entry)

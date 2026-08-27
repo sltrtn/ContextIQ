@@ -23,13 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
 import com.contextiq.app.network.dto.JournalRecommendationDto
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
@@ -57,24 +52,7 @@ fun JournalMatcherScreen(navController: NavController) {
     }
 
     fun findJournals() {
-        val file = pdfFile ?: return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val requestFile = file.asRequestBody("application/pdf".toMediaTypeOrNull())
-                val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
-                val response = ContextIQClient.api.journalMatch(part)
-
-                if (response.isSuccessful && response.body() != null) {
-                    state = UiState.Success(response.body()!!.recommendations)
-                } else {
-                    state = UiState.Error("API Error: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("Journal matching is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask about the paper's topic or methodology.")
     }
 
     Scaffold(

@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
-import com.contextiq.app.network.dto.AbstractRequest
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,30 +35,7 @@ fun AbstractSummaryScreen(navController: NavController) {
 
     fun generateSummary(text: String) {
         if (text.isBlank()) return
-        state = UiState.Loading
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val response = ContextIQClient.api.analyzeAbstract(
-                    AbstractRequest(abstract = text),
-                )
-                if (response.isSuccessful && response.body() != null) {
-                    val r = response.body()!!
-                    val summary = """
-                        |Problem: ${r.problem}
-                        |
-                        |Method: ${r.method}
-                        |
-                        |Result: ${r.result}
-                    """.trimMargin()
-                    state = UiState.Success(summary)
-                } else {
-                    state = UiState.Error("Could not generate summary.")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("This feature is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask questions about it.")
     }
 
     Scaffold(

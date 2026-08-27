@@ -25,14 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
@@ -67,27 +61,7 @@ fun ReviewRebuttalScreen(navController: NavController) {
     }
 
     fun generateRebuttal() {
-        if (pdfFile == null || reviewerComments.isBlank()) return
-        state = UiState.Loading
-        loadingStatus = "Scanning manuscript..."
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val file = pdfFile!!
-                val requestFile = file.asRequestBody("application/pdf".toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
-                val commentsPart = reviewerComments.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                val response = ContextIQClient.api.rebuttalDraft(filePart, commentsPart)
-                if (response.isSuccessful && response.body() != null) {
-                    state = UiState.Success(response.body()!!.rebuttal)
-                } else {
-                    state = UiState.Error("API Error: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("Rebuttal drafting is not supported as a dedicated endpoint. Use Paper Analyzer to upload the PDF and ask: 'Draft a rebuttal to these reviewer comments: ...'")
     }
 
     Scaffold(

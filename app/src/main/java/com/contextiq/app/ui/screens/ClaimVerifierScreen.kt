@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
-import com.contextiq.app.network.dto.ClaimVerifyRequest
 import com.contextiq.app.ui.components.pressScale
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,33 +36,7 @@ fun ClaimVerifierScreen(navController: NavController) {
 
     fun verifyClaim(claim: String) {
         if (claim.isBlank()) return
-        state = UiState.Loading
-        loadingStatus = "Searching literature for evidence..."
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val response = ContextIQClient.api.claimVerify(
-                    ClaimVerifyRequest(claim = claim),
-                )
-                if (response.isSuccessful && response.body() != null) {
-                    val r = response.body()!!
-                    val result = buildString {
-                        append(r.verified_text)
-                        if (r.bibliography.isNotEmpty()) {
-                            append("\n\nBIBLIOGRAPHY\n")
-                            r.bibliography.forEachIndexed { i, b ->
-                                append("${i + 1}. ${b.title} — ${b.url}\n")
-                            }
-                        }
-                    }
-                    state = UiState.Success(result)
-                } else {
-                    state = UiState.Error("Could not verify claim.")
-                }
-            } catch (e: Exception) {
-                state = UiState.Error("Network error: ${e.message}")
-            }
-        }
+        state = UiState.Error("Claim verification against external literature is not supported by the current ContextIQ backend. Upload a PDF in Paper Analyzer and ask whether the claim is supported by the paper.")
     }
 
     Scaffold(

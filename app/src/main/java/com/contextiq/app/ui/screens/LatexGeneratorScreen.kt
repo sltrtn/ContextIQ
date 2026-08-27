@@ -35,13 +35,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.contextiq.app.domain.UiState
-import com.contextiq.app.network.ContextIQClient
 import com.contextiq.app.ui.components.pressScale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -132,29 +128,8 @@ fun LatexGeneratorScreen(navController: NavController) {
     ) { uri: Uri? -> uri?.let { processImageUri(it) } }
 
     fun generateLatex() {
-        val file = imageFile ?: return
-        isLoading = true
-        latexResult = ""
-
-        scope.launch(Dispatchers.IO) {
-            try {
-                val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
-                val response = ContextIQClient.api.latexGenerate(part)
-
-                if (response.isSuccessful && response.body() != null) {
-                    var code = response.body()!!.latex_code
-                    code = code.replace("```latex", "").replace("```", "").trim()
-                    launch(Dispatchers.Main) { latexResult = code }
-                } else {
-                    launch(Dispatchers.Main) { latexResult = "API Error: ${response.code()}" }
-                }
-            } catch (e: Exception) {
-                launch(Dispatchers.Main) { latexResult = "Network Error: ${e.message}" }
-            } finally {
-                launch(Dispatchers.Main) { isLoading = false }
-            }
-        }
+        isLoading = false
+        latexResult = "LaTeX generation from images is not supported by the current ContextIQ backend. Use Paper Analyzer to upload a PDF and ask about its equations."
     }
 
     Scaffold(
