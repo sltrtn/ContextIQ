@@ -373,4 +373,4 @@ All changes from the 2026-07-04 session committed and pushed.
 - Full `assembleDebug` fails at `compileDebugJavaWithJavac` due to environment JDK 26 being incompatible with Android SDK 35 `jlink` step. This is a machine-level JDK issue, not a code issue. To fully build the APK, switch to JDK 17 or 21.
 
 **Commits:**
-- (to be committed after this entry)
+- `d5d997e` fix(android): align ContextIQApi with backend endpoints; wire Paper Analyzer to upload+query; stub unsupported screens
