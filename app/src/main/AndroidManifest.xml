@@ -8,7 +8,8 @@
 
     <application
         android:label="@string/app_name"
-        android:theme="@style/Theme.ContextIQ">
+        android:theme="@style/Theme.ContextIQ"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".MainActivity"
