@@ -374,3 +374,33 @@ All changes from the 2026-07-04 session committed and pushed.
 
 **Commits:**
 - `d5d997e` fix(android): align ContextIQApi with backend endpoints; wire Paper Analyzer to upload+query; stub unsupported screens
+
+---
+
+## 2026-08-28 — Android Visual Redesign to Match Web Client
+
+**Goal:** Replace the scattered 14-screen feature demo with a focused, black-and-white research workbench that mirrors the React frontend's editorial language.
+
+**Changes:**
+- Added `app/.../ui/screens/LandingScreen.kt`:
+  - "CONTEXTIQ" wordmark, "RESEARCH, INTERROGATED." tagline, "READ BETWEEN THE LINES." hero, marquee strip, "START INTERROGATING" CTA.
+- Added `app/.../ui/screens/WorkbenchScreen.kt`:
+  - Single-screen flow numbered 01/SOURCE, 02/INTERROGATE, 03/METHOD, 04/RESPONSE.
+  - PDF upload via `ActivityResultContracts.GetContent` to `/api/v1/documents/upload`.
+  - Query composer with selectable pipeline (vector_rerank, hybrid, hybrid_rerank).
+  - Response panel renders answer, faithfulness score, source count, latency, and evidence cards.
+  - Persists each Q&A pair to Room as a `ChatSessionEntity`.
+- Updated `app/.../ui/screens/HistoryScreen.kt`:
+  - Black/white session list with uppercase titles, metadata, and arrow affordances.
+- Updated `app/.../ui/screens/ChatDetailScreen.kt`:
+  - Clean record view using the new `ChatBubble` style.
+  - FAB navigates to a new interrogation on the workbench.
+- Added `app/.../ui/components/ChatBubble.kt` with the new black/white bordered bubble.
+- Rewrote `app/.../MainActivity.kt` navigation graph to `landing` → `workbench` → `history` → `chat_detail`.
+- Forced `ContextIQTheme(darkTheme = true)` so Android uses the same `#000`/`#fff` palette as the web client.
+- Deleted 12 old screens and `ChatSheet.kt` that no longer fit the focused flow:
+  - `HomeScreen`, `PaperAnalyzerScreen`, `CitationScreen`, `OpenAccessScreen`, `AbstractSummaryScreen`, `PaperReviewerScreen`, `LatexGeneratorScreen`, `LitReviewerScreen`, `ClaimVerifierScreen`, `JournalMatcherScreen`, `ReviewRebuttalScreen`, `RelatedPapersScreen`.
+
+**Build verification:**
+- `./gradlew :app:compileDebugKotlin` passes.
+- Full `assembleDebug` still blocked by environment JDK 26 vs Android SDK 35; code is APK-ready on JDK 17/21.

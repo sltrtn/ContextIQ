@@ -1,7 +1,7 @@
 # Handoff — Session End
 
-> **Last updated:** 2026-08-20
-> **Last action:** Android-backend endpoint alignment complete — Paper Analyzer uploads and queries the real backend; unsupported screens stubbed.
+> **Last updated:** 2026-08-28
+> **Last action:** Android visual redesign complete — app now matches the web client's black-and-white editorial language with a focused upload/query/history flow.
 
 ---
 
@@ -29,7 +29,7 @@
 | LinkedIn post draft | ✅ `Ref/portfolio/ContextIQ-LinkedIn-Post.md` created |
 | Live portfolio screenshot | ⏳ Blocked in this environment (port/model-cache/network issue) |
 | React frontend | ✅ `frontend/` is wired to upload/query APIs; full live validation pending reachable backend |
-| Cross-platform design system | ✅ documented contract + Android/web tokens; Android migration is incremental |
+| Cross-platform design system | ✅ documented contract + Android/web tokens; Android now mirrors web client's black/white editorial language |
 | Railway deploy | ⏳ not started |
 
 ---
@@ -69,6 +69,19 @@
 
 ### Test set
 - `data/eval/test_set.json` — 30 Q&A pairs across 5 papers
+
+### Android app
+- `app/src/main/java/com/contextiq/app/MainActivity.kt` — navigation graph: `landing` → `workbench` → `history` → `chat_detail`
+- `app/src/main/java/com/contextiq/app/ui/screens/LandingScreen.kt` — wordmark, tagline, hero, marquee, CTA
+- `app/src/main/java/com/contextiq/app/ui/screens/WorkbenchScreen.kt` — 01/SOURCE upload, 02/INTERROGATE query, 03/METHOD pipeline selector, 04/RESPONSE with sources
+- `app/src/main/java/com/contextiq/app/ui/screens/HistoryScreen.kt` — past interrogations list
+- `app/src/main/java/com/contextiq/app/ui/screens/ChatDetailScreen.kt` — session record view
+- `app/src/main/java/com/contextiq/app/ui/components/ChatBubble.kt` — black/white bordered message bubble
+- `app/src/main/java/com/contextiq/app/network/ContextIQApi.kt` — Retrofit interface aligned with backend
+- `app/src/main/java/com/contextiq/app/network/dto/BackendDto.kt` — backend-aligned request/response DTOs
+- `app/src/main/java/com/contextiq/app/data/local/` — Room DB for chat history
+- `app/src/main/java/com/contextiq/app/ui/theme/` — ContextIQ theme, colors, typography, `ContextIQDesign` tokens
+- `app/src/main/java/com/contextiq/app/ui/components/ExpressiveUtils.kt` — `pressScale()` spring animations
 
 ---
 
@@ -139,10 +152,9 @@ curl -s -X POST http://localhost:8001/api/v1/evaluation/run \
 
 ## Next Steps
 
-1. **Capture the LinkedIn live-query screenshot** — start from the exact command in `Ref/portfolio/ContextIQ-LinkedIn-Post.md`; crop to response-only and never expose `.env`/headers. If port 8001 remains stuck, identify and stop only the confirmed orphan before retrying.
-2. **Validate / extend React frontend** — run the wired upload/query flow against a reachable backend, then add an observability dashboard.
-3. **Android visual migration** — apply `ContextIQDesign` tokens to the next edited Compose screens, with emulator/device QA.
-3. **Railway deploy** — Docker Compose + public URL
-4. **Full LLM-judge evaluation** — requires paid Groq/OpenAI tier (free tier 100k tokens/day is insufficient for 150 calls)
-5. **Contextual chunking improvement** — section detection is coarse, may need better regex
-6. **Android rewire** — point Retrofit to deployed backend
+1. **Deploy to Railway** — Docker Compose + public URL
+2. **Point Android + frontend to deployed URL** — update base URL from `10.0.2.2:8001` to public Railway URL
+3. **Capture the LinkedIn live-query screenshot** — start from the exact command in `Ref/portfolio/ContextIQ-LinkedIn-Post.md`; crop to response-only and never expose `.env`/headers.
+4. **Validate / extend React frontend** — run the wired upload/query flow against a reachable backend, then add an observability dashboard.
+5. **Full LLM-judge evaluation** — requires paid Groq/OpenAI tier (free tier 100k tokens/day is insufficient for 150 calls)
+6. **Contextual chunking improvement** — section detection is coarse, may need better regex

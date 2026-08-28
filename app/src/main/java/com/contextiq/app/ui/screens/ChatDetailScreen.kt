@@ -1,21 +1,26 @@
 package com.contextiq.app.ui.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.contextiq.app.data.local.ChatDao
 import com.contextiq.app.data.local.ChatMessageEntity
 import com.contextiq.app.domain.ChatMessage
 import com.contextiq.app.ui.components.ChatBubble
+import com.contextiq.app.ui.theme.ContextIQDesign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -36,29 +41,47 @@ fun ChatDetailScreen(navController: NavController, chatDao: ChatDao, sessionId: 
             TopAppBar(
                 title = {
                     Text(
-                        "ANALYSIS RECORD",
-                        letterSpacing = 2.sp,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        "SESSION RECORD",
+                        letterSpacing = 0.08.em,
+                        fontWeight = FontWeight.W900,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = MaterialTheme.colorScheme.onPrimary)
+                    TextButton(onClick = { navController.popBackStack() }) {
+                        Text(
+                            text = "BACK",
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontWeight = FontWeight.W800,
+                                letterSpacing = 0.1.em,
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.background,
+                ),
+                modifier = Modifier.border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.onBackground,
                 ),
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { navController.navigate("analyze_paper?sessionId=$sessionId") },
-                icon = { Icon(Icons.Default.PlayArrow, contentDescription = "Continue") },
-                text = { Text("Continue Chat", fontWeight = androidx.compose.ui.text.font.FontWeight.W700) },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+                onClick = { navController.navigate("workbench") },
+                icon = { Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null) },
+                text = {
+                    Text(
+                        "NEW INTERROGATION",
+                        fontWeight = FontWeight.W900,
+                        letterSpacing = 0.05.em,
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.onBackground,
+                contentColor = MaterialTheme.colorScheme.background,
+                shape = RoundedCornerShape(ContextIQDesign.Radius.Action.dp),
             )
         },
     ) { paddingValues ->
@@ -66,10 +89,20 @@ fun ChatDetailScreen(navController: NavController, chatDao: ChatDao, sessionId: 
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            contentPadding = PaddingValues(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = ContextIQDesign.Space.Screen.dp),
+            contentPadding = PaddingValues(vertical = ContextIQDesign.Space.Screen.dp),
+            verticalArrangement = Arrangement.spacedBy(ContextIQDesign.Space.Lg.dp),
         ) {
+            item {
+                Text(
+                    text = "${messages.filter { it.isUser }.size} QUESTIONS  •  ${messages.filter { !it.isUser }.size} RESPONSES",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.W800,
+                        letterSpacing = 0.13.em,
+                    ),
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
             items(messages.filter { it.role != "system" }) { msg ->
                 ChatBubble(
                     message = ChatMessage(

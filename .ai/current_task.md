@@ -6,14 +6,16 @@
 
 ## Objective
 
-**Backend build + evaluation complete. README, tests, Docker Compose, retrieval metrics, React frontend, interview prep docs, and Android-backend alignment are done.**
+**Android app redesigned to match the web client's black-and-white editorial language.** Backend, tests, React frontend, docs, and backend alignment are done.
 
 Recently completed (this session):
-- Rewrote Android `ContextIQApi.kt` to use real backend endpoints: `/api/v1/documents/upload`, `/api/v1/query`, `/api/v1/query/stream`
-- Added backend-aligned DTOs (`BackendDto.kt`)
-- Rewired `PaperAnalyzerScreen` to upload PDFs and chat via `/query`
-- Stubbed unsupported screens with honest "not supported by current backend" messages
-- Verified Kotlin compilation passes (full APK build blocked only by environment JDK 26 vs Android SDK 35)
+- Created `LandingScreen` with web-client wordmark, tagline "RESEARCH, INTERROGATED.", and marquee language.
+- Created `WorkbenchScreen` as the single primary flow: 01/SOURCE upload, 02/INTERROGATE query, 03/METHOD pipeline selector, 04/RESPONSE with answer, faithfulness, sources.
+- Restyled `HistoryScreen` and `ChatDetailScreen` with the same black/white, uppercase, numbered vocabulary.
+- Replaced `MainActivity` navigation graph: `landing` → `workbench` → `history` → `chat_detail`.
+- Removed the 12 old screens and `ChatSheet` that no longer fit the focused interrogation flow.
+- Forced `ContextIQTheme(darkTheme = true)` so Android mirrors the web client's `#000`/`#fff` palette.
+- Verified Kotlin compilation passes (`./gradlew :app:compileDebugKotlin`).
 
 Next focus: deploy backend so Android + frontend can hit a live URL.
 
@@ -41,6 +43,7 @@ Next focus: deploy backend so Android + frontend can hit a live URL.
 - [x] React frontend built ✅
 - [x] Faithfulness context window increased ✅
 - [x] Android-backend endpoint alignment ✅
+- [x] Android visual redesign to match web client ✅
 - [ ] Deploy to Railway
 - [ ] Full LLM-judge evaluation (needs paid tier)
 
@@ -53,16 +56,16 @@ Next focus: deploy backend so Android + frontend can hit a live URL.
 
 - [x] React/Vite frontend added at `frontend/`: black-and-white Outfit interface with upload, query composer, pipeline selector, response/sources and keyboard/click interactions.
 - [x] Upload and query controls wired to FastAPI (`/documents/upload`, `/query`); Vite proxies `/api` to local port 8001 by default.
-- [ ] Commit `frontend/` source files to repo (exclude `node_modules/` and `dist/`)
+- [x] `frontend/` source files committed to repo (`node_modules/` and `dist/` excluded).
 - [ ] Validate the full browser flow against a reachable backend with the embedding model available.
 
-## Design system status (2026-08-20)
+## Design system status (2026-08-28)
 
 - [x] Audited Android theme, typography, shared components, and all Compose screen styling alongside the React frontend.
 - [x] Added the binding ContextIQ cross-platform contract to `.ai/design-system.md`.
 - [x] Added Android `ContextIQDesign` tokens and made the ContextIQ brand theme deterministic (`dynamicColor = false`).
-- [x] Added matching semantic layout tokens to the black-and-white web frontend without changing its pure black/white palette.
-- [ ] Incrementally migrate existing Android screens from raw dp/radius literals to `ContextIQDesign` as they are next edited; do not do a risky all-screen visual rewrite without device QA.
+- [x] Android app now uses the web client's black/white editorial language: "CONTEXTIQ" wordmark, "RESEARCH, INTERROGATED.", numbered workflow (01/SOURCE, 02/INTERROGATE, 03/METHOD, 04/RESPONSE), high-contrast cards, and Outfit typography.
+- [x] Removed old feature-specific screens that did not match the focused interrogation flow.
 
 ---
 
@@ -71,7 +74,7 @@ Next focus: deploy backend so Android + frontend can hit a live URL.
 1. **[ ] Deploy to Railway** — Docker Compose + public URL
 2. **[ ] Point Android + frontend to deployed URL** — update base URL from `10.0.2.2:8001` to public Railway URL
 3. **[ ] Full LLM-judge evaluation** — run with paid Groq/OpenAI tier
-4. **[ ] Re-implement unsupported Android screens** — only if needed for portfolio; currently stubbed with honest messages
+4. **[ ] Re-implement extended Android features** — only if needed for portfolio; current flow is upload + query + history
 
 ---
 
